@@ -60,7 +60,7 @@
 					"response": []
 				},
 				{
-					"name": "create bet",
+					"name": "create user",
 					"request": {
 						"auth": {
 							"type": "apikey",
@@ -98,13 +98,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{baseUrl}}/api/foo",
+							"raw": "{{baseUrl}}/api/user",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
 								"api",
-								"foo"
+								"user"
 							]
 						}
 					},

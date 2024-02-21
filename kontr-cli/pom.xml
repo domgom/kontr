@@ -23,7 +23,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.kontr.cli.CliKt</mainClass>
+                            <mainClass>org.kontr.cli.Cli</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

@@ -23,13 +23,13 @@ class SyncOkHttpClient : SyncHttpClient {
         )
         .headers(headers.map())
         .build()
-        .also { println(this) }
+        //.also { println(this) }
 
     private fun okhttp3.Response.map(): ResponseDsl = ResponseDsl().apply {
         body = this@map.body?.string() ?: ""
         headers = this@map.headers.toMultimap()
         statusCode = code
-    }.apply { println(this) }
+    }//.apply { println(this) }
 
     private fun MutableMap<String, List<String>>.map(): okhttp3.Headers {
         val builder = okhttp3.Headers.Builder()
