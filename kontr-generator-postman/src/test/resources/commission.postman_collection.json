@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "api/internal/user/{userId}/commissions",
+			"name": "commissionApi",
 			"item": [
 				{
 					"name": "{commissionId}",
