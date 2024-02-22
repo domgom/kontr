@@ -2,7 +2,6 @@ package org.kontr.generator.postman
 
 import com.squareup.kotlinpoet.*
 import org.kontr.dsl.CollectionDsl
-import org.kontr.dsl.HttpMethod
 import org.kontr.dsl.RequestDsl
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -80,29 +79,57 @@ class PostmanGenerator {
         }
     }
 
-
-    private fun String.toClassName(): String {
-        // Ensure the class name is a valid Kotlin identifier
-        return this.replace(Regex("[^A-Za-z0-9_]"), "").capitalize()
-    }
-
     private fun getRequestBlock(name: String, request: Request): FunSpec {
         val requestFunction = FunSpec.builder(name)
             .receiver(CollectionDsl::class.java)
             .returns(RequestDsl::class)
             .addCode(
-                CodeBlock.of("return ${request.method.name.lowercase()}(\"${replaceVariables(request.url)}\"){\n")
+                CodeBlock.of(
+                    "return ${request.method.name.lowercase()}(\"${
+                        replaceAllVars(request)
+                    }\"){\n"
+                )
             )
+
+        request.variables.forEach { (key, value) ->
+            val typedValue = variableWithType(value)
+            requestFunction.addParameter(
+                ParameterSpec.builder(key, typedValue::class)
+                    .defaultValue(value)
+                    .build()
+            )
+        }
+        request.query.forEach { (key, value) ->
+            val typedValue = variableWithType(value)
+            requestFunction.addParameter(
+                ParameterSpec.builder(key, typedValue::class)
+                    .defaultValue(
+                        when (typedValue) {
+                            is Long -> "%L"
+                            else -> "\"%L\"" // defaults unrecognised types to String
+                        }, typedValue
+                    )
+                    .build()
+            )
+        }
+
         request.headers.forEach { (key, value) ->
-            requestFunction.addStatement("header(%S, %S)", replaceVariables(key), replaceVariables(value))
+            requestFunction.addStatement("header(%S, %S)", replaceEnvVariables(key), replaceEnvVariables(value))
         }
 
         if (request.body.isNotBlank()) {
-            requestFunction.addStatement("body = %P", replaceVariables(request.body))
+            requestFunction.addStatement("body = %P", replaceEnvVariables(request.body))
         }
         requestFunction.addCode(CodeBlock.of("}"))
 
         return requestFunction.build()
+    }
+
+    private fun replaceAllVars(request: Request): String {
+        var input = replaceEnvVariables(request.url)
+        input = replaceUriVariables(input, request.variables.keys)
+        input = replaceQueryParams(input, request.query)
+        return input
     }
 
     private fun generateEnvClass(): TypeSpec {
@@ -119,7 +146,7 @@ class PostmanGenerator {
         return envClass
     }
 
-    private fun replaceVariables(input: String): String {
+    private fun replaceEnvVariables(input: String): String {
         var output = input
         val regex = "\\{\\{([^}]*)}}".toRegex()
         regex.findAll(input).forEach { matchResult ->
@@ -130,4 +157,29 @@ class PostmanGenerator {
         }
         return output
     }
+
+    private fun replaceUriVariables(input: String, variableNames: Set<String>): String {
+        var result = input
+        variableNames.forEach { variable ->
+            result = result.replace(":$variable", "\${$variable}")
+        }
+        return result
+    }
+
+    private fun replaceQueryParams(input: String, queryParams: Map<String, String>): String {
+        var result = input
+        queryParams.forEach { (key, value) ->
+            result = result.replace("$key=$value", "$key=\${$key}")
+        }
+        return result
+    }
+
+
+    private fun variableWithType(variable: String) = variable.toLongOrNull() ?: variable
+
+    private fun String.toClassName(): String {
+        // Ensure the class name is a valid Kotlin identifier
+        return this.replace(Regex("[^A-Za-z0-9_]"), "").capitalize()
+    }
+
 }

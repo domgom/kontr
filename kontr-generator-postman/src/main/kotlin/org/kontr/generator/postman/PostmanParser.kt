@@ -2,7 +2,6 @@ package org.kontr.generator.postman
 
 import kotlinx.serialization.json.*
 import org.kontr.dsl.HttpMethod
-import java.io.File
 import java.nio.file.Path
 
 /**
@@ -30,16 +29,32 @@ class PostmanParser {
     private fun parseRequest(json: JsonObject): Request {
         val method = HttpMethod.valueOf(json.getValue("method").jsonPrimitive.content.uppercase())
         val url = json.getValue("url").jsonObject.getValue("raw").jsonPrimitive.content
-        val headers = json["header"]?.jsonArray?.associate {
+        //change host to List<String> ?
+        val host = json.getValue("url").jsonObject.getValue("host")?.jsonArray?.map {
+            it.jsonPrimitive.content
+        }?.toList() ?: emptyList()
+        val path = json.getValue("url").jsonObject.getValue("path")?.jsonArray?.map {
+            it.jsonPrimitive.content
+        }?.toList() ?: emptyList()
+
+        val headers = json.getValue("header").jsonArray.associate {
             it.jsonObject.getValue("key").jsonPrimitive.content to it.jsonObject.getValue("value").jsonPrimitive.content
-        } ?: emptyMap()
+        }
+        val query = readMapInUrlOptionalChildren(json, "query")
+        val variables = readMapInUrlOptionalChildren(json, "variable")
         val bodyMode = json["body"]?.jsonObject?.getValue("mode")?.jsonPrimitive?.content
         val body = when (bodyMode) {
             "raw" -> json["body"]?.jsonObject?.getValue("raw")?.jsonPrimitive?.content ?: ""
             else -> ""
         }
-        return Request(method, url, headers, body)
+        return Request(method, url, host, path, query, headers, variables, body)
     }
+
+    private fun readMapInUrlOptionalChildren(json: JsonObject, childName: String) =
+        if (json.getValue("url").jsonObject.containsKey(childName))
+            json.getValue("url").jsonObject.getValue(childName)?.jsonArray?.associate {
+                it.jsonObject.getValue("key").jsonPrimitive.content to it.jsonObject.getValue("value").jsonPrimitive.content
+            } ?: emptyMap() else emptyMap()
 
 
 }

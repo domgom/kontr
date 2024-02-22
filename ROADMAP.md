@@ -13,8 +13,6 @@ add System env var for secrets?
 better Env support to have several objects and change from one another with ease
 proper github friendly readme and github publish
 media types
-path variables
-uri variables
 non String types in headers
 a test localhost server instead of typicode
 more tests, reuse tests between different http clients
@@ -24,6 +22,7 @@ async client with coroutines
 context for extension functions (not really necessary as we don't extend classes that aren't ours so namespace pollution is negligible)
 
 ## DONE
+path & uri variables✅
 using default java client ✅
 GET/POST/etc functions in addition of RQ ✅
 more status checking functions ✅

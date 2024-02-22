@@ -5,12 +5,12 @@ Kontr (/kŏn′too͝r″/) is an opensource project to leverage the power of Kot
 Current version is 1.0.0-SNAPSHOT and although is fairly usable please consider it **EXPERIMENTAL** with DSL interfaces SUBJECT TO POSSIBLE CHANGES.
 
 ## Requirements
-The recommended versions are the latest one available:
+The recommended versions are the latest ones available:
 - Java 21 or higher
 - Kotlin 1.9.22 or higher
 
-No support to other versions is provided although it should be possible to downgrade without much effort.
-
+No support to other versions is provided, although it should be possible to downgrade without much effort.
+You can use the `kontr-examples` pom.xml as a good starting point for your project, in includes asserj and json unit to for convenient assertion writing. 
 ## DSL examples
 This is the simplest usage example:
 ```kotlin
@@ -123,7 +123,10 @@ public class Auth {
 ```
 ## Architecture
 Kontr has a modular architecture so new extensions like other http clients or openapi generator can be included in the future.
+
+
 ![Dependency Diagram](.img/kontr-deps.svg)
+
 
 ## Known restrictions
 - Only available request/response `body` type is String, no object serde is available.
