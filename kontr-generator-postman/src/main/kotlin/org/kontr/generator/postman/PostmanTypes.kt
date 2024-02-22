@@ -21,5 +21,5 @@ data class Request(
     val query: Map<String, String> = emptyMap(),
     val headers: Map<String, String>,
     val variables: Map<String, String>,
-    val body: String
+    val body: String?
 )

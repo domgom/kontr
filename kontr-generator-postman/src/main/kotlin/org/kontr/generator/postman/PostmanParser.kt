@@ -42,12 +42,23 @@ class PostmanParser {
         }
         val query = readMapInUrlOptionalChildren(json, "query")
         val variables = readMapInUrlOptionalChildren(json, "variable")
-        val bodyMode = json["body"]?.jsonObject?.getValue("mode")?.jsonPrimitive?.content
+
+        val body = getBody(json)
+
+        return Request(method, url, host, path, query, headers, variables, body)
+    }
+
+    private fun getBody(json: JsonObject) = if (json.containsKey("body")) {
+        val bodyMode = (if (json.getValue("body").jsonObject.containsKey("mode"))
+            json.getValue("body").jsonObject.getValue("mode").jsonPrimitive.content
+        else null)
         val body = when (bodyMode) {
             "raw" -> json["body"]?.jsonObject?.getValue("raw")?.jsonPrimitive?.content ?: ""
-            else -> ""
+            else -> null
         }
-        return Request(method, url, host, path, query, headers, variables, body)
+        body
+    } else {
+        null
     }
 
     private fun readMapInUrlOptionalChildren(json: JsonObject, childName: String) =

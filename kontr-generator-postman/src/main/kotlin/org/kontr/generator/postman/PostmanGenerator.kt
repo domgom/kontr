@@ -2,6 +2,8 @@ package org.kontr.generator.postman
 
 import com.squareup.kotlinpoet.*
 import org.kontr.dsl.CollectionDsl
+import org.kontr.dsl.Configuration
+import org.kontr.dsl.Configuration.defaultOnResponseAssertion
 import org.kontr.dsl.RequestDsl
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -85,45 +87,42 @@ class PostmanGenerator {
             .returns(RequestDsl::class)
             .addCode(
                 CodeBlock.of(
-                    "return ${request.method.name.lowercase()}(\"${
-                        replaceAllVars(request)
-                    }\"){\n"
+                    "return ${request.method.name.lowercase()}(\"${replaceAllVars(request)}\"){ ${generateOnResponse()}\n"
                 )
             )
 
         request.variables.forEach { (key, value) ->
             val typedValue = variableWithType(value)
-            requestFunction.addParameter(
-                ParameterSpec.builder(key, typedValue::class)
-                    .defaultValue(value)
-                    .build()
-            )
+            requestFunction.addParameter(buildTypedValue(key, typedValue))
         }
         request.query.forEach { (key, value) ->
             val typedValue = variableWithType(value)
-            requestFunction.addParameter(
-                ParameterSpec.builder(key, typedValue::class)
-                    .defaultValue(
-                        when (typedValue) {
-                            is Long -> "%L"
-                            else -> "\"%L\"" // defaults unrecognised types to String
-                        }, typedValue
-                    )
-                    .build()
-            )
+            requestFunction.addParameter(buildTypedValue(key, typedValue))
         }
 
         request.headers.forEach { (key, value) ->
             requestFunction.addStatement("header(%S, %S)", replaceEnvVariables(key), replaceEnvVariables(value))
         }
 
-        if (request.body.isNotBlank()) {
-            requestFunction.addStatement("body = %P", replaceEnvVariables(request.body))
+        request.body?.let {
+            requestFunction.addStatement("body = %P", replaceEnvVariables(it))
         }
         requestFunction.addCode(CodeBlock.of("}"))
 
         return requestFunction.build()
     }
+
+    private fun generateOnResponse(): String = defaultOnResponseAssertion ?: ""
+
+    private fun buildTypedValue(key: String, typedValue: Any) =
+        ParameterSpec.builder(key, typedValue::class)
+            .defaultValue(
+                when (typedValue) {
+                    is Long -> "%L"
+                    else -> "\"%L\"" // defaults unrecognised types to String
+                }, typedValue
+            )
+            .build()
 
     private fun replaceAllVars(request: Request): String {
         var input = replaceEnvVariables(request.url)

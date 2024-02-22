@@ -9,35 +9,20 @@ import java.io.File.separator
  */
 class CollectionGenerationTest {
     @Test
-    fun `test generate auth collection`() {
+    fun `test generate weather api collection`() {
         val fileName = "Collection"
-        val collectionPathName = javaClass.getResource("auth.postman_collection.json")?.file!!
+        val collectionPathName = javaClass.getResource("weather.api.json")?.file!!
         val packageName = "org.example.generated"
         val outputPathRootName = "target/generated-sources/postman"
 
         val outputFile = File(outputPathRootName + separator + packageName.replace(".", separator) + separator + fileName + ".kt")
 
-        assertThat(File(outputPathRootName).exists()).isFalse()
+        if(File(outputPathRootName).exists()){
+            File(outputPathRootName).deleteRecursively()
+        }
+
         PostmanGenerator().generate(collectionPathName, outputPathRootName, packageName, fileName)
         assertThat(outputFile.exists()).isTrue()
         outputFile.inputStream().use { it.copyTo(System.out) }
-        File(outputPathRootName).deleteRecursively()
-    }
-
-
-    @Test
-    fun `test generate commission collection`() {
-        val fileName = "Collection"
-        val collectionPathName = javaClass.getResource("commission.postman_collection.json")?.file!!
-        val packageName = "org.example.generated"
-        val outputPathRootName = "target/generated-sources/postman"
-
-        val outputFile = File(outputPathRootName + separator + packageName.replace(".", separator) + separator + fileName + ".kt")
-
-        assertThat(File(outputPathRootName).exists()).isFalse()
-        PostmanGenerator().generate(collectionPathName, outputPathRootName, packageName, fileName)
-        assertThat(outputFile.exists()).isTrue()
-        outputFile.inputStream().use { it.copyTo(System.out) }
-        File(outputPathRootName).deleteRecursively()
     }
 }

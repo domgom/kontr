@@ -9,6 +9,7 @@ handcrafted postman collection with one example of each case
 rework kontr-examples, it's super messy now
 
 ## NICE TO HAVE
+show DSL colouring syntax on png capture in the documentation
 rework CLI to make it interactive and usable (like https://github.com/trietsch/spotify-cli)
 non String response bodies (using types for rq/rs bodies), (not filetype)
 kotlin-script
