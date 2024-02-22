@@ -6,6 +6,7 @@ openapi to rq{}
 mvn central publishing
 
 ## NICE TO HAVE
+rework CLI to make it interactive and usable
 non String response bodies (using types for rq/rs bodies), (not filetype)
 kotlin-script
 add summary? (only if stopOnAssertionError == false?)

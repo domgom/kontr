@@ -1,0 +1,695 @@
+{
+	"info": {
+		"_postman_id": "aa216765-8713-486e-aba2-f9e8426644fb",
+		"name": "commission-service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26866896"
+	},
+	"item": [
+		{
+			"name": "api/internal/user/{userId}/commissions",
+			"item": [
+				{
+					"name": "{commissionId}",
+					"item": [
+						{
+							"name": "get By Id",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/internal/user/:userId/commissions/:commissionId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"internal",
+										"user",
+										":userId",
+										"commissions",
+										":commissionId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "1",
+											"description": "(Required) "
+										},
+										{
+											"key": "commissionId",
+											"value": "2",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/internal/user/:userId/commissions/:commissionId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"internal",
+												"user",
+												":userId",
+												"commissions",
+												":commissionId"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "-56568296",
+													"description": "(Required) "
+												},
+												{
+													"key": "commissionId",
+													"value": "-56568296",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": -24203215,\n  \"userId\": -66458637,\n  \"commissionRate\": -24355149.97439708,\n  \"fromDate\": \"1960-02-17T23:11:07.759Z\",\n  \"toDate\": \"2010-10-11T02:04:26.818Z\"\n}"
+								}
+							]
+						},
+						{
+							"name": "put",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 1,\n    \"userId\": 1,\n    \"commissionRate\": 0.02,\n    \"fromDate\": \"2023-01-01T00:00:00Z\",\n    \"toDate\": \"2025-01-01T00:00:00Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/internal/user/:userId/commissions/:commissionId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"internal",
+										"user",
+										":userId",
+										"commissions",
+										":commissionId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "1",
+											"description": "(Required) "
+										},
+										{
+											"key": "commissionId",
+											"value": "1",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "OK",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											},
+											{
+												"key": "Accept",
+												"value": "*/*"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"commissionRate\": -3500344.9601168036,\n  \"fromDate\": \"1995-10-20T10:39:36.517Z\",\n  \"toDate\": \"1975-12-31T23:28:03.162Z\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/internal/user/:userId/commissions/:commissionId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"internal",
+												"user",
+												":userId",
+												"commissions",
+												":commissionId"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "-56568296",
+													"description": "(Required) "
+												},
+												{
+													"key": "commissionId",
+													"value": "-56568296",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "*/*"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"id\": -24203215,\n  \"userId\": -66458637,\n  \"commissionRate\": -24355149.97439708,\n  \"fromDate\": \"1960-02-17T23:11:07.759Z\",\n  \"toDate\": \"2010-10-11T02:04:26.818Z\"\n}"
+								}
+							]
+						},
+						{
+							"name": "delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/api/internal/user/:userId/commissions/:commissionId",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"internal",
+										"user",
+										":userId",
+										"commissions",
+										":commissionId"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "-56568296",
+											"description": "(Required) "
+										},
+										{
+											"key": "commissionId",
+											"value": "-56568296",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "No Content",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [
+											{
+												"description": "Added as a part of security scheme: apikey",
+												"key": "Authorization",
+												"value": "<API Key>"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/internal/user/:userId/commissions/:commissionId",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"internal",
+												"user",
+												":userId",
+												"commissions",
+												":commissionId"
+											],
+											"variable": [
+												{
+													"key": "userId",
+													"value": "-56568296",
+													"description": "(Required) "
+												},
+												{
+													"key": "commissionId",
+													"value": "-56568296",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "get All",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/internal/user/:userId/commissions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"internal",
+								"user",
+								":userId",
+								"commissions"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "38",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: apikey",
+										"key": "Authorization",
+										"value": "<API Key>"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/internal/user/:userId/commissions",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"internal",
+										"user",
+										":userId",
+										"commissions"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "-56568296",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"id\": -39284799,\n    \"userId\": 99677462,\n    \"commissionRate\": 48132411.71838337,\n    \"fromDate\": \"2005-05-04T03:59:39.092Z\",\n    \"toDate\": \"2001-09-13T10:46:53.374Z\"\n  },\n  {\n    \"id\": 11632666,\n    \"userId\": 91237854,\n    \"commissionRate\": -7429923.177942485,\n    \"fromDate\": \"2019-05-03T19:34:46.493Z\",\n    \"toDate\": \"2015-07-04T08:07:26.866Z\"\n  }\n]"
+						}
+					]
+				},
+				{
+					"name": "post",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": 5,\n    \"commissionRate\": 0.00,\n    \"fromDate\": \"2023-07-01T00:00:00Z\",\n    \"toDate\": \"3000-01-01T00:00:00Z\",\n    \"marketType\": \"EACH_WAY\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/internal/user/:userId/commissions",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"internal",
+								"user",
+								":userId",
+								"commissions"
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "5",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: apikey",
+										"key": "Authorization",
+										"value": "<API Key>"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"commissionRate\": 0.03,\n    \"fromDate\": \"2023-01-01T00:00:00.000Z\",\n    \"toDate\": \"2024-01-01T00:00:00.000Z\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/api/internal/user/:userId/commissions",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"internal",
+										"user",
+										":userId",
+										"commissions"
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "-56568296",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": -24203215,\n  \"userId\": -66458637,\n  \"commissionRate\": -24355149.97439708,\n  \"fromDate\": \"1960-02-17T23:11:07.759Z\",\n  \"toDate\": \"2010-10-11T02:04:26.818Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "get At",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/api/internal/user/:userId/commissions/?at=2023-07-27T00:00:00.000Z&marketType=PLACE",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"internal",
+								"user",
+								":userId",
+								"commissions",
+								""
+							],
+							"query": [
+								{
+									"key": "at",
+									"value": "2023-07-27T00:00:00.000Z",
+									"description": "(Required) "
+								},
+								{
+									"key": "marketType",
+									"value": "PLACE"
+								}
+							],
+							"variable": [
+								{
+									"key": "userId",
+									"value": "38",
+									"description": "(Required) "
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"description": "Added as a part of security scheme: apikey",
+										"key": "Authorization",
+										"value": "<API Key>"
+									},
+									{
+										"key": "Accept",
+										"value": "*/*"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/internal/user/:userId/commissions/?at=1975-08-16T03:20:14.123Z",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"internal",
+										"user",
+										":userId",
+										"commissions",
+										""
+									],
+									"query": [
+										{
+											"key": "at",
+											"value": "1975-08-16T03:20:14.123Z"
+										}
+									],
+									"variable": [
+										{
+											"key": "userId",
+											"value": "-56568296",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"id\": -24203215,\n  \"userId\": -66458637,\n  \"commissionRate\": -24355149.97439708,\n  \"fromDate\": \"1960-02-17T23:11:07.759Z\",\n  \"toDate\": \"2010-10-11T02:04:26.818Z\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "get Commit Id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "*/*"
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/commission-service/commitId",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"commission-service",
+						"commitId"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "OK",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"description": "Added as a part of security scheme: apikey",
+								"key": "Authorization",
+								"value": "<API Key>"
+							},
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/commission-service/commitId",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"commission-service",
+								"commitId"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "text",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "*/*"
+						}
+					],
+					"cookie": [],
+					"body": "enim"
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "value",
+				"value": "{{jwt_token}}",
+				"type": "string"
+			},
+			{
+				"key": "key",
+				"value": "Authorization",
+				"type": "string"
+			},
+			{
+				"key": "in",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
