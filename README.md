@@ -1,5 +1,5 @@
 # Kontr
-Kontr (/kŏn′too͝r″/) is an opensource project to leverage the power of Kotlin DSL to make a simple and expressive api to create http requests.
+Kontr (/kŏn′too͝r″/) is an opensource project to leverage the power of Kotlin DSL to make a simple and expressive api to create http requests. Disclaimer: you shouldn't use Kontr for performance testing, use https://github.com/gatling instead.
 
 ## Important warning
 Current version is 1.0.0-SNAPSHOT and although is fairly usable please consider it **EXPERIMENTAL** with DSL interfaces SUBJECT TO POSSIBLE CHANGES.
@@ -10,7 +10,7 @@ The recommended versions are the latest ones available:
 - Kotlin 1.9.22 or higher
 
 No support to other versions is provided, although it should be possible to downgrade without much effort.
-You can use the `kontr-examples` pom.xml as a good starting point for your project, in includes asserj and json unit to for convenient assertion writing. 
+You can use the `kontr-examples` pom.xml as a good starting point for your project, in includes asserj and json unit for convenient assertion writing. 
 ## DSL examples
 This is the simplest usage example:
 ```kotlin

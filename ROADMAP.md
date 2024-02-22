@@ -4,9 +4,12 @@ This is just a scratch file to move features around until a stable 1.0.0 version
 ## MUST HAVE
 openapi to rq{}
 mvn central publishing
+web version (render?) to upload collection and generate kontr dsl
+handcrafted postman collection with one example of each case
+rework kontr-examples, it's super messy now
 
 ## NICE TO HAVE
-rework CLI to make it interactive and usable
+rework CLI to make it interactive and usable (like https://github.com/trietsch/spotify-cli)
 non String response bodies (using types for rq/rs bodies), (not filetype)
 kotlin-script
 add summary? (only if stopOnAssertionError == false?)
