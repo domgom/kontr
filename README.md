@@ -1,16 +1,21 @@
 # Kontr
-Kontr (/kŏn′too͝r″/) is an opensource project to leverage the power of Kotlin DSL to make a simple and expressive api to create http requests. Disclaimer: you shouldn't use Kontr for performance testing, use https://github.com/gatling instead.
+Kontr ([pronounced as Contour](https://dictionary.cambridge.org/pronunciation/english/contour)) is an opensource project to leverage the power of Kotlin DSL to make a simple and expressive api to create http requests. Disclaimer: you shouldn't use Kontr for performance testing, use https://github.com/gatling instead.
 
 ## Important warning
-Current version is 1.0.0-SNAPSHOT and although is fairly usable please consider it **EXPERIMENTAL** with DSL interfaces SUBJECT TO POSSIBLE CHANGES.
+Current version is 1.0.0-SNAPSHOT and although is fairly usable please consider it **EXPERIMENTAL** with DSL interfaces subjected to changes.
 
 ## Requirements
 The recommended versions are the latest ones available:
 - Java 21 or higher
 - Kotlin 1.9.22 or higher
 
+#### Old versions support
 No support to other versions is provided, although it should be possible to downgrade without much effort.
-You can use the `kontr-examples` pom.xml as a good starting point for your project, in includes asserj and json unit for convenient assertion writing. 
+#### Minimalistic standalone approach
+We try to keep the external dependencies to a minimum (`kotlin-stdlib` and `slf4j-api`) but we still recommend to have a new project for the kontr files. 
+#### Creating a new project 
+The project [kontr-examples](/kontr-examples) should be a good starting point for a new project and includes `assertj-core` and `json-unit` for convenient assertion writing. 
+
 ## DSL examples
 This is the simplest usage example:
 ```kotlin
@@ -24,7 +29,8 @@ fun main() {
     }
 }
 ```
-And we can make more readable functions instead of using the http operations directly.
+And we can make more expressive functions instead of using the http operations directly.
+
 ```kotlin
 package org.company.example
 
@@ -34,12 +40,12 @@ import org.kontr.dsl.collection
 
 fun main() {
     collection {
-        getReadme()
-        getLicense("Apache License")
+        checkReadme()
+        verifyLicense("Apache License")
     }
 }
 
-private fun CollectionDsl.getReadme() {
+private fun CollectionDsl.checkReadme() {
     get("https://raw.githubusercontent.com/domgom/kontr/main/README.md") {
         headers {
             Accept("text/html")
@@ -49,7 +55,7 @@ private fun CollectionDsl.getReadme() {
     }
 }
 
-private fun CollectionDsl.getLicense(licenseName : String) {
+private fun CollectionDsl.verifyLicense(licenseName : String) {
     get("https://raw.githubusercontent.com/domgom/kontr/main/LICENSE") {
         headers {
             Accept("text/html")
@@ -63,7 +69,7 @@ private fun CollectionDsl.getLicense(licenseName : String) {
 ```
 
 ## Generation Examples
-We can also generate those functions from postman collections so we can focus on building testing workflows instead of crafting the requests individually.
+We can also generate those functions from postman collections, so we can focus on building testing workflows instead of crafting the requests individually.
 ```cmd
 // on project root
 mvn jar:jar && java -jar kontr-cli/target/kontr-cli-1.0.0-SNAPSHOT-jar-with-dependencies.jar gp "kontr-generator-postman/src/test/resources/auth.postman_collection.json" "kontr-cli/target/generated-sources/postman" "org.example.generated" "Auth"
@@ -121,6 +127,13 @@ public class Auth {
     }
 }
 ```
+## IDE support
+We recommend Intellij as the IDE for Kontr (and any Kotlin project really) and we get nice colouring for the DSL syntax:
+
+![Screenshot of IntelliJ editor showing Kontr's DSL colouring](.img/weather-api-syntax-hightlight.png)
+
+*Roadmap includes the future evaluation of Kotlin script files (.kts) to incorporate Kontr to your project even easier. 
+
 ## Architecture
 Kontr has a modular architecture so new extensions like other http clients or openapi generator can be included in the future.
 
@@ -129,7 +142,7 @@ Kontr has a modular architecture so new extensions like other http clients or op
 
 
 ## Known restrictions
-- Only available request/response `body` type is String, no object serde is available.
+- Only available request/response `body` type is String, no object serialisation/deserialisation is available.
 - Needs to be built locally, no mvn central publishing yet.
 - Doesn't work with proxies.
 
