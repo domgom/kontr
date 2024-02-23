@@ -1,5 +1,7 @@
 # Kontr
-Kontr ([pronounced as Contour](https://dictionary.cambridge.org/pronunciation/english/contour)) is an opensource project to leverage the power of Kotlin DSL to make a simple and expressive api to create http requests. Disclaimer: you shouldn't use Kontr for performance testing, use https://github.com/gatling instead.
+Kontr ([pronounced as Contour](https://dictionary.cambridge.org/pronunciation/english/contour)) is an opensource project to leverage the power of Kotlin DSL to make a simple and expressive api to create http requests. 
+
+Disclaimer: you shouldn't use Kontr for performance testing, use https://github.com/gatling instead.
 
 ## Important warning
 Current version is 1.0.0-SNAPSHOT and although is fairly usable please consider it **EXPERIMENTAL** with DSL interfaces subjected to changes.
@@ -29,7 +31,7 @@ fun main() {
     }
 }
 ```
-And we can make more expressive functions instead of using the http operations directly.
+And we can make more expressive function names instead of using the http operations directly.
 
 ```kotlin
 package org.company.example
@@ -72,11 +74,11 @@ private fun CollectionDsl.verifyLicense(licenseName : String) {
 We can also generate those functions from postman collections, so we can focus on building testing workflows instead of crafting the requests individually.
 ```cmd
 // on project root
-mvn jar:jar && java -jar kontr-cli/target/kontr-cli-1.0.0-SNAPSHOT-jar-with-dependencies.jar gp "kontr-generator-postman/src/test/resources/auth.postman_collection.json" "kontr-cli/target/generated-sources/postman" "org.example.generated" "Auth"
+mvn jar:jar && java -jar kontr-cli/target/kontr-cli-1.0.0-SNAPSHOT-jar-with-dependencies.jar gp "kontr-generator-postman/src/test/resources/weather.api.postman_collection.json" "kontr-cli/target/generated-sources/postman" "org.example.generated" "Collection"
 ```
 *Future improvements on the tooling/ui side included in the Roadmap
 
-Gives us a good baseline  to work with, although a bit verbose on public modifiers:
+Gives us a good baseline  to work with:
 ```kotlin
 package org.example.generated
 
@@ -127,8 +129,10 @@ public class Auth {
     }
 }
 ```
+If the amount of redundant `public` modifiers bothers you, you can use IntelliJ's `Code/Code cleanup..` to remove them.
+
 ## IDE support
-We recommend Intellij as the IDE for Kontr (and any Kotlin project really) and we get nice colouring for the DSL syntax:
+We recommend Intellij as the IDE for Kontr (and really any Kotlin project). We get nice colouring for the DSL syntax:
 
 ![Screenshot of IntelliJ editor showing Kontr's DSL colouring](.img/weather-api-syntax-hightlight.png)
 
@@ -142,7 +146,7 @@ Kontr has a modular architecture so new extensions like other http clients or op
 
 
 ## Known restrictions
-- Only available request/response `body` type is String, no object serialisation/deserialisation is available.
+- Only available request/response `body` type is String, no object serialisation/de-serialisation is available.
 - Needs to be built locally, no mvn central publishing yet.
 - Doesn't work with proxies.
 

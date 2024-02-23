@@ -24,6 +24,7 @@ class CollectionGenerationTest {
         PostmanGenerator().generate(collectionPathName, outputPathRootName, packageName, fileName)
         assertThat(outputFile.exists()).isTrue()
         outputFile.inputStream().use { it.copyTo(System.out) }
+        // TODO improve to have good assertions but for now this is better than nothing to know if output changes
         assertThat(outputFile.readText()).isEqualTo(
             "package org.example.generated\n\n" +
                     "import kotlin.Long\n" +

@@ -6,12 +6,12 @@ import org.kontr.dsl.collection
 
 fun main() {
     collection {
-        getReadme()
-        getLicense("Apache License")
+        checkReadme()
+        verifyLicense("Apache License")
     }
 }
 
-private fun CollectionDsl.getReadme() {
+private fun CollectionDsl.checkReadme() {
     get("https://raw.githubusercontent.com/domgom/kontr/main/README.md") {
         headers { Accept("text/html") }
         onResponse { healthy }
@@ -19,7 +19,7 @@ private fun CollectionDsl.getReadme() {
     }
 }
 
-private fun CollectionDsl.getLicense(licenseName: String) {
+private fun CollectionDsl.verifyLicense(licenseName: String) {
     get("https://raw.githubusercontent.com/domgom/kontr/main/LICENSE") {
         headers { Accept("text/html") }
         onResponse {
