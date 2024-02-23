@@ -2,11 +2,12 @@
 This is just a scratch file to move features around until a stable 1.0.0 version
 
 ## MUST HAVE
+html encoding of uri and query params 
 openapi to rq{}
 mvn central publishing
 web version (render?) to upload collection and generate kontr dsl
 handcrafted postman collection with one example of each case
-rework kontr-examples, it's super messy now
+
 
 ## NICE TO HAVE
 show DSL colouring syntax on png capture in the documentation
@@ -27,6 +28,8 @@ async client with coroutines
 context for extension functions (not really necessary as we don't extend classes that aren't ours so namespace pollution is negligible)
 
 ## DONE
+rework kontr-examples, it's super messy now ✅
+refactored kotlinx deserialisation✅
 path & uri variables✅
 using default java client ✅
 GET/POST/etc functions in addition of RQ ✅

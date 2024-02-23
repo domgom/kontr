@@ -39,6 +39,9 @@ open class Response(
     val badRequest get() = status(HTTP_BAD_REQUEST)
 
     @DslColour4
+    val notFound get() = status(HTTP_NOT_FOUND)
+
+    @DslColour4
     val internalError get() = status(HTTP_INTERNAL_ERROR)
 }
 

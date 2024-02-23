@@ -76,11 +76,11 @@ open class Collection {
         return null
     }
 
-    @DslColour2
+    @DslColour4
     fun put(url: String, builder: RequestDsl.() -> Unit): RequestDsl =
         buildRequestInternal(url, PUT, builder)
 
-    @DslColour2
+    @DslColour4
     fun patch(url: String, builder: RequestDsl.() -> Unit): RequestDsl =
         buildRequestInternal(url, PATCH, builder)
 
