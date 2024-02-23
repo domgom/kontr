@@ -76,25 +76,36 @@
 			"name": "Update Weather Information",
 			"request": {
 				"method": "PUT",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{'temperature': 25, 'conditions': 'Partly Cloudy'}"
+					"raw": "{'temperature': 25, 'conditions': 'Partly Cloudy'}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/weather/:city/:date",
+					"raw": "{{baseUrl}}/weather/:cityId/:date",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"weather",
-						":city",
+						":cityId",
 						":date"
 					],
 					"variable": [
 						{
-							"key": "city",
-							"value": "San Francisco"
+							"key": "cityId",
+							"value": "1542"
 						},
 						{
 							"key": "date",
@@ -109,7 +120,13 @@
 			"name": "Delete Weather Data",
 			"request": {
 				"method": "DELETE",
-				"header": [],
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token}}",
+						"type": "text"
+					}
+				],
 				"url": {
 					"raw": "{{baseUrl}}/weather",
 					"host": [

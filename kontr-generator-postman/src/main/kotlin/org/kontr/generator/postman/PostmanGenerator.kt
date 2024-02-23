@@ -2,7 +2,6 @@ package org.kontr.generator.postman
 
 import com.squareup.kotlinpoet.*
 import org.kontr.dsl.CollectionDsl
-import org.kontr.dsl.Configuration
 import org.kontr.dsl.Configuration.defaultOnResponseAssertion
 import org.kontr.dsl.RequestDsl
 import java.nio.file.Path
@@ -32,7 +31,7 @@ class PostmanGenerator {
         val fileSpecBuilder = FileSpec.builder(packageName, fileName)
         val collectionFunctionBuilder = TypeSpec.classBuilder(collection.info["name"]?.toClassName() ?: "collection")
 
-        generateNestedItems(collection.items, collectionFunctionBuilder)
+        generateNestedItems(collection.item, collectionFunctionBuilder)
         fileSpecBuilder.addType(generateEnvClass())
         //imports added after generateNestedItems() populates variableSet
         fileSpecBuilder.addImport("net.javacrumbs.jsonunit.assertj", "assertThatJson")
@@ -91,21 +90,23 @@ class PostmanGenerator {
                 )
             )
 
-        request.variables.forEach { (key, value) ->
-            val typedValue = variableWithType(value)
-            requestFunction.addParameter(buildTypedValue(key, typedValue))
+        request.url.variable?.forEach {
+            val typedValue = variableWithType(it.value)
+            requestFunction.addParameter(buildTypedValue(it.key, typedValue))
         }
         request.query.forEach { (key, value) ->
             val typedValue = variableWithType(value)
             requestFunction.addParameter(buildTypedValue(key, typedValue))
         }
 
-        request.headers.forEach { (key, value) ->
-            requestFunction.addStatement("header(%S, %S)", replaceEnvVariables(key), replaceEnvVariables(value))
+        request.header.forEach {
+            val key = it["key"]!!
+            val value = it["value"]!!
+            requestFunction.addStatement("header(\"%L\", \"%L\")", replaceEnvVariables(key), replaceEnvVariables(value))
         }
 
         request.body?.let {
-            requestFunction.addStatement("body = %P", replaceEnvVariables(it))
+            requestFunction.addStatement("body = %P", replaceEnvVariables(it.raw))
         }
         requestFunction.addCode(CodeBlock.of("}"))
 
@@ -125,8 +126,8 @@ class PostmanGenerator {
             .build()
 
     private fun replaceAllVars(request: Request): String {
-        var input = replaceEnvVariables(request.url)
-        input = replaceUriVariables(input, request.variables.keys)
+        var input = replaceEnvVariables(request.url.raw)
+        input = replaceUriVariables(input, request.url.variable?.map { it.key }?.toSet() ?: emptySet())
         input = replaceQueryParams(input, request.query)
         return input
     }
