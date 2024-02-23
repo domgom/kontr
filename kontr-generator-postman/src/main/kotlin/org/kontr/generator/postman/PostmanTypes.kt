@@ -9,17 +9,17 @@ import org.kontr.dsl.HttpMethod
 @Serializable
 data class PostmanCollection(
     val info: Map<String, String>,
-    val item: List<CollectionItem>,
+    val item: List<Item>,
     val event: List<Event>? = mutableListOf(),
     val variable: List<Variable> = mutableListOf(),
 )
 
 @Serializable
-data class CollectionItem(
+data class Item(
     val name: String,
     val request: Request? = null,
     val response: List<Map<String, String>>? = null,
-    val item: List<CollectionItem>? = null,
+    val item: List<Item>? = null,
 )
 
 @Serializable

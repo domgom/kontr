@@ -22,6 +22,7 @@
     <modules>
         <module>kontr-dsl</module>
         <module>kontr-http-client-ok</module>
+        <module>kontr-generator-core</module>
         <module>kontr-generator-postman</module>
         <module>kontr-examples</module>
         <module>kontr-cli</module>

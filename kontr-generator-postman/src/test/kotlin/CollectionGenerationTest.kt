@@ -8,6 +8,7 @@ import java.io.File.separator
  * @author Domingo Gomez
  */
 class CollectionGenerationTest {
+    private val postmanGenerator: PostmanGenerator = PostmanGenerator()
     @Test
     fun `test generate weather api collection`() {
         val fileName = "Collection"
@@ -21,7 +22,7 @@ class CollectionGenerationTest {
             File(outputPathRootName).deleteRecursively()
         }
 
-        PostmanGenerator().generate(collectionPathName, outputPathRootName, packageName, fileName)
+        postmanGenerator.generate(collectionPathName, outputPathRootName, packageName, fileName)
         assertThat(outputFile.exists()).isTrue()
         outputFile.inputStream().use { it.copyTo(System.out) }
         // TODO improve to have good assertions but for now this is better than nothing to know if output changes
