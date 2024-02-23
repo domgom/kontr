@@ -26,6 +26,7 @@
         <module>kontr-generator-postman</module>
         <module>kontr-examples</module>
         <module>kontr-cli</module>
+        <module>kontr-web</module>
     </modules>
 
     <repositories>

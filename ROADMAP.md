@@ -2,15 +2,14 @@
 This is just a scratch file to move features around until a stable 1.0.0 version
 
 ## MUST HAVE
-html encoding of uri and query params (http client responsibility?)
-openapi to rq{}
 mvn central publishing
 web version (render?) to upload collection and generate kontr dsl
+non String response bodies (using types for rq/rs bodies), (not filetype)
 
 ## NICE TO HAVE
-
+html encoding of uri and query params (http client responsibility?)
+openapi to rq{}
 rework CLI to make it interactive and usable (like https://github.com/trietsch/spotify-cli)
-non String response bodies (using types for rq/rs bodies), (not filetype)
 kotlin-script
 add summary? (only if stopOnAssertionError == false?)
 add System env var for secrets?

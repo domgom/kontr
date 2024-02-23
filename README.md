@@ -149,6 +149,7 @@ Kontr has a modular architecture so new extensions like other http clients or op
 - Only available request/response `body` type is String, no object serialisation/de-serialisation is available.
 - Needs to be built locally, no mvn central publishing yet.
 - Doesn't work with proxies.
+- Open api format is not yet integrated, for the time being you can directly import your openapi collection to postman and export the postman collection. 
 
 ## Future updates
 Roadmap: work in progress
