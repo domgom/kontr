@@ -1,5 +1,6 @@
 package org.kontr.generator.postman
 
+import com.squareup.kotlinpoet.FileSpec
 import org.kontr.generator.core.Generator
 import org.kontr.generator.core.IGenerator
 import java.nio.file.Paths
@@ -16,5 +17,8 @@ class PostmanGenerator(
         val file = generator.generate(generatorCollection, packageName, fileName)
         file.writeTo(Paths.get(outputPath))
     }
+
+    override fun generate(inputPath: String, packageName: String, fileName: String): FileSpec =
+        generator.generate(postmanParser.parseGeneratorCollection(inputPath), packageName, fileName)
 
 }
