@@ -25,12 +25,9 @@ class CollectionGenerationTest {
         assertThat(outputFile.exists()).isTrue()
         outputFile.inputStream().use { it.copyTo(System.out) }
         assertThat(outputFile.readText()).isEqualTo(
-            "package org.example.generated\n" +
-                    "\n" +
+            "package org.example.generated\n\n" +
                     "import kotlin.Long\n" +
                     "import kotlin.String\n" +
-                    "import net.javacrumbs.jsonunit.assertj.assertThatJson\n" +
-                    "import org.assertj.core.api.Assertions.assertThat\n" +
                     "import org.example.generated.Env.baseUrl\n" +
                     "import org.example.generated.Env.token\n" +
                     "import org.kontr.dsl.CollectionDsl\n" +
@@ -44,12 +41,12 @@ class CollectionGenerationTest {
                     "}\n" +
                     "\n" +
                     "public class WeatherAPI {\n" +
-                    "  public fun CollectionDsl.`Get Current Weather`(): RequestDsl = get(\"\${baseUrl}/current?city=San\n" +
-                    "      Francisco\"){ onResponse{ healthy }\n" +
+                    "  public fun CollectionDsl.`Get Current Weather`(city: String = \"San Francisco\"): RequestDsl =\n" +
+                    "      get(\"\${baseUrl}/current?city=\${city}\"){ onResponse{ healthy }\n" +
                     "  }\n" +
                     "\n" +
-                    "  public fun CollectionDsl.`Get Forecast`(): RequestDsl = get(\"\${baseUrl}/forecast?daysAhead=5\"){\n" +
-                    "      onResponse{ healthy }\n" +
+                    "  public fun CollectionDsl.`Get Forecast`(daysAhead: Long = 5): RequestDsl =\n" +
+                    "      get(\"\${baseUrl}/forecast?daysAhead=\${daysAhead}\"){ onResponse{ healthy }\n" +
                     "  }\n" +
                     "\n" +
                     "  public fun CollectionDsl.`Get Historical Weather Data`(): RequestDsl = get(\"\${baseUrl}/history\"){\n" +

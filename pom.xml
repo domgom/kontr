@@ -24,6 +24,7 @@
         <module>kontr-http-client-ok</module>
         <module>kontr-generator-postman</module>
         <module>kontr-examples</module>
+        <module>kontr-no-assertj-test</module>
         <module>kontr-cli</module>
     </modules>
 

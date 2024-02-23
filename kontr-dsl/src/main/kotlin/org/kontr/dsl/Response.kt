@@ -1,6 +1,6 @@
 package org.kontr.dsl
 
-import org.assertj.core.api.Assertions.assertThat
+import org.kontr.asserts.assertThat
 import java.net.HttpURLConnection.*
 
 /**

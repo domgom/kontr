@@ -28,7 +28,7 @@ data class Request(
     val url: Url,
     val host: List<String> = mutableListOf(),
     val path: List<String> = mutableListOf(),
-    val query: Map<String, String> = mutableMapOf(),
+    /*val query: Map<String, String> = mutableMapOf(),*/
     val header: List<Map<String, String>> = mutableListOf(),
     val body: Body? = null,
 )

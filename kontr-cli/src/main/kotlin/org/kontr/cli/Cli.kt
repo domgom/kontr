@@ -121,7 +121,7 @@ class Cli {
             }
         }
 
-
+        @OptIn(kotlinx.cli.ExperimentalCli::class)
         class GeneratorPostmanSubcommand : Subcommand("gp", "Postman Generator") {
             val inputPath by argument(ArgType.String, description = "Input collection path")
             val outputDir by argument(ArgType.String, description = "Output directory")

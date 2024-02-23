@@ -34,8 +34,6 @@ class PostmanGenerator {
         generateNestedItems(collection.item, collectionFunctionBuilder)
         fileSpecBuilder.addType(generateEnvClass())
         //imports added after generateNestedItems() populates variableSet
-        fileSpecBuilder.addImport("net.javacrumbs.jsonunit.assertj", "assertThatJson")
-        fileSpecBuilder.addImport("org.assertj.core.api.Assertions", "assertThat")
         fileSpecBuilder.addImport("org.kontr.dsl", "collection")
         variableSet.forEach { variable ->
             fileSpecBuilder.addImport("${packageName}.Env", variable)
@@ -94,7 +92,9 @@ class PostmanGenerator {
             val typedValue = variableWithType(it.value)
             requestFunction.addParameter(buildTypedValue(it.key, typedValue))
         }
-        request.query.forEach { (key, value) ->
+        request.url.query.forEach {
+            val key = it["key"]!!
+            val value = it["value"]!!
             val typedValue = variableWithType(value)
             requestFunction.addParameter(buildTypedValue(key, typedValue))
         }
@@ -128,7 +128,7 @@ class PostmanGenerator {
     private fun replaceAllVars(request: Request): String {
         var input = replaceEnvVariables(request.url.raw)
         input = replaceUriVariables(input, request.url.variable?.map { it.key }?.toSet() ?: emptySet())
-        input = replaceQueryParams(input, request.query)
+        input = replaceQueryParams(input, request.url.query)
         return input
     }
 
@@ -166,9 +166,11 @@ class PostmanGenerator {
         return result
     }
 
-    private fun replaceQueryParams(input: String, queryParams: Map<String, String>): String {
+    private fun replaceQueryParams(input: String, queryParams: List<Map<String, String>>): String {
         var result = input
-        queryParams.forEach { (key, value) ->
+        queryParams.forEach {
+            val key = it["key"]!!
+            val value = it["value"]!!
             result = result.replace("$key=$value", "$key=\${$key}")
         }
         return result
