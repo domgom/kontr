@@ -1,11 +1,11 @@
 import org.kontr.dsl.collection
+import kotlin.test.Ignore
 import kotlin.test.Test
-import kotlin.test.assertFailsWith
 
 /**
  * @author Domingo Gomez
  */
-class LocalStatusCodeAssertionsTest {
+class KontrAssertionsIntegrationTest {
     @Test
     fun assertEquals() {
         collection {
@@ -15,7 +15,7 @@ class LocalStatusCodeAssertionsTest {
 
     @Test
     fun assertIsNotEquals() {
-        throwsAssertionWithError("200 is not equals to 400") {
+        throwsAssertionWithError("\nexpected: 400\n but was: 200") {
             collection {
                 get("https://jsonplaceholder.typicode.com/todos/1") { onResponse { badRequest } }
             }
@@ -31,7 +31,7 @@ class LocalStatusCodeAssertionsTest {
 
     @Test
     fun assertIsNotBetween() {
-        throwsAssertionWithError("404 is not between 200..299") {
+        throwsAssertionWithError("\nExpecting actual:\n  404\nto be between:\n  [200, 299]\n") {
             collection {
                 get(url = "https://jsonplaceholder.typicode.com/todos/-1") { onResponse { in2XX } }
             }
@@ -47,19 +47,10 @@ class LocalStatusCodeAssertionsTest {
 
     @Test
     fun assertIsNotLessThan() {
-        throwsAssertionWithError("404 is not less than 400") {
+        throwsAssertionWithError("\nExpecting actual:\n  404\nto be less than:\n  400 ") {
             collection {
                 get(url = "https://jsonplaceholder.typicode.com/todos/-1") { onResponse { healthy } }
             }
-        }
-    }
-
-    private fun throwsAssertionWithError(message: String, lambda: Any.() -> Unit) {
-        val error = assertFailsWith<AssertionError> {
-            apply(lambda)
-        }
-        if (error.message != message) {
-            throw error
         }
     }
 }
