@@ -21,31 +21,11 @@ fun Application.configureRouting() {
             preCompressed(CompressedFileType.BROTLI, CompressedFileType.GZIP)
         }
 
-       /* route("/") {
-            get("") {
-                call.respondHtml {
-                    index()
-                }
-            }
-        }*/
         route("/upload") {
-            post("") {
-                val readChannel = call.receiveChannel()
-                val text = readChannel.readRemaining().readText()
-                call.respondText(
-                    buildString {
-                        appendHTML().div {
-                            boxed(text)
-                        }
-                    }
-                )
-            }
-        }
-        route("/upload2") {
             post("") {
                 var fileDescription = ""
                 var fileName = ""
-                val filePath = "/Users/dgomez/src/kontr/kontr-web/target/archive-tmp"
+                val filePath = "/tmp"
                 val multipartData = call.receiveMultipart()
                 multipartData.forEachPart { part ->
                     when (part) {
