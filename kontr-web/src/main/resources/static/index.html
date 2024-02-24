@@ -123,8 +123,9 @@
                             class="copy-button bg-blue-800 hover:bg-blue-500 text-white font-bold py-2 px-4 mr-3 rounded"
                             data-element-id="outputText">Copy
                     </button>
-                    <a id="downloadOutput" href="#" download="Collection.kt"
-                       class="bg-purple-800 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded">Download</a>
+                    <button id="downloadOutput" href="#" download="Collection.kt"
+                            disabled="true"
+                            class="disabled:opacity-30 bg-purple-800 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded">Download</button>
                 </div>
             </div>
         </div>
@@ -161,6 +162,7 @@
                     var codeContainer = document.getElementById('outputText')
                     codeContainer.innerHTML = response;
                     Prism.highlightElement(codeContainer);
+                    document.getElementById('downloadOutput').disabled = false;
                 } else {
                     // Handle upload error
                     console.error('File upload error:', xhr.statusText);
@@ -176,13 +178,18 @@
     document.body.addEventListener('htmx:afterSwap', function(evt) {
        evt.preventDefault();
        Prism.highlightElement(evt.target);
+       document.getElementById('downloadOutput').disabled = false;
     });
 
     // Function to trigger the download
     function triggerDownload() {
         // Get the content of the textarea
-        var content = document.getElementById('outputText').textContent
+        var content = document.getElementById('outputText').textContent;
 
+        if(content ===""){
+            console.log("Nothing to download!!");
+            return;
+        }
         // Create a Blob object from the content
         var blob = new Blob([content], { type: 'text/plain' });
 
@@ -270,6 +277,7 @@
 
         // Clear the inner HTML
         outputTextElement.innerHTML = '';
+        document.getElementById('downloadOutput').disabled = true;
     }
 </script>
 <script src="prism.js"></script>
