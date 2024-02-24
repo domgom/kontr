@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kontr DSL converter</title>
-    <script src="https://unpkg.com/htmx.org@1.9.10/dist/htmx.min.js"></script>
-    <script src="https://cdn.tailwindcss.com/3.4.1"></script>
+    <script src="htmx.min.js"></script>
+    <script src="tailwindcss.js"></script>
     <style>
         /* Style for the copy button */
         .copy-button {
@@ -81,12 +81,11 @@
                 <p class="text-center text-gray-400 mb-10">Drag your file here or select it</p>
                 <div class="flex justify-between items-center">
                     <label for="file" class="bg-blue-800 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer">Select File</label>
-                    <form id="form" hx-encoding="multipart/form-data" hx-post="/upload2" hx-target="#result" hx-swap="outerHTML">
+                    <form id="form" hx-encoding="multipart/form-data" hx-post="/upload2" hx-target="#outputText" hx-swap="innerHTML">
                         <input type="file" id="file" name="file" class="hidden">
                         <button type="submit" class="bg-purple-800 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded">Upload</button>
                     </form>
                 </div>
-                <div id="result"></div>
             </div>
         </div>
         <!-- Right Area (Output) -->
@@ -94,7 +93,8 @@
             <!-- Output Area -->
             <div class="border border-gray-400 bg-gray-800 p-3 rounded">
                 <p class="text-lg text-purple-100 pb-3 pl-2">Generated DSL file</p>
-                <textarea id="outputText" class="bg-gray-900 w-full h-64 border border-gray-400 rounded mb-4"></textarea>
+                <textarea id="outputText" class="bg-gray-900 w-full h-64 border border-gray-400 rounded mb-4">
+                </textarea>
                 <div class="flex justify-between">
                     <button id="copyOutput" class="bg-blue-800 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">Copy</button>
                     <a id="downloadOutput" href="#" download="Collection.kt" class="bg-purple-800 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded">Download</a>

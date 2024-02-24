@@ -4,6 +4,7 @@ import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.server.application.*
 import io.ktor.server.html.*
+import io.ktor.server.http.content.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -12,19 +13,21 @@ import kotlinx.html.stream.appendHTML
 import org.kontr.generator.postman.PostmanGenerator
 import org.kontr.web.views.boxed
 import org.kontr.web.views.index
-import java.io.ByteArrayOutputStream
 import java.io.File
-import java.io.InputStream
 
 fun Application.configureRouting() {
     routing {
-        route("/") {
+        staticResources("/", "static", index = "index.html") {
+            preCompressed(CompressedFileType.BROTLI, CompressedFileType.GZIP)
+        }
+
+       /* route("/") {
             get("") {
                 call.respondHtml {
                     index()
                 }
             }
-        }
+        }*/
         route("/upload") {
             post("") {
                 val readChannel = call.receiveChannel()
@@ -61,8 +64,7 @@ fun Application.configureRouting() {
                     }
                     part.dispose()
                 }
-
-                val generatedCollection =PostmanGenerator().generate(
+                val generatedCollection = PostmanGenerator().generate(
                     "$filePath/$fileName",
                     "org.example.company",
                     fileName + "_generated"
@@ -71,7 +73,6 @@ fun Application.configureRouting() {
                 generatedCollection.writeTo(stringBuilder)
                 val byteArray = stringBuilder.toString().toByteArray()
                 call.respondBytes(byteArray, ContentType.Text.Plain)
-
             }
         }
     }
