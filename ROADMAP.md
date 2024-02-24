@@ -2,8 +2,7 @@
 This is just a scratch file to move features around until a stable 1.0.0 version
 
 ## MUST HAVE
-mvn central publishing
-web version (render?) to upload collection and generate kontr dsl
+gha cli / web deployment / mvn central publishing
 non String response bodies (using types for rq/rs bodies), (not filetype)
 breaking String multiline arguments (weather api put date)
 
@@ -26,6 +25,7 @@ async client with coroutines
 context for extension functions (not really necessary as we don't extend classes that aren't ours so namespace pollution is negligible)
 
 ## DONE
+✅web version (render) to upload collection and generate kontr dsl
 ✅prism.js for code highlighting in the website
 ✅show DSL colouring syntax on png capture in the documentation
 ✅handcrafted postman collection with one example of each case
