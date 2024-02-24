@@ -76,7 +76,8 @@ We can also generate those functions from postman collections, so we can focus o
 // on project root
 mvn jar:jar && java -jar kontr-cli/target/kontr-cli-1.0.0-SNAPSHOT-jar-with-dependencies.jar gp "kontr-generator-postman/src/test/resources/weather.api.postman_collection.json" "kontr-cli/target/generated-sources/postman" "org.example.generated" "Collection"
 ```
-*Future improvements on the tooling/ui side included in the Roadmap
+
+We have now https://kontr.onrender.com/ where you can generate online your Kontr DSL files uploading the Postman collections! :rocket:
 
 Gives us a good baseline  to work with:
 ```kotlin
