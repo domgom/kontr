@@ -175,8 +175,33 @@
        evt.preventDefault();
        Prism.highlightElement(evt.target);
     });
-</script>
 
+    // Function to trigger the download
+    function triggerDownload() {
+        // Get the content of the textarea
+        var content = document.getElementById('outputText').textContent
+
+        // Create a Blob object from the content
+        var blob = new Blob([content], { type: 'text/plain' });
+
+        // Create a download link
+        var downloadLink = document.createElement('a');
+        downloadLink.href = URL.createObjectURL(blob);
+        downloadLink.download = 'Collection.kt';
+
+        // Append the download link to the document body
+        document.body.appendChild(downloadLink);
+
+        // Click the download link
+        downloadLink.click();
+
+        // Remove the download link from the document body
+        document.body.removeChild(downloadLink);
+    }
+
+    // Event listener for the download button
+    document.getElementById('downloadOutput').addEventListener('click', triggerDownload);
+</script>
 
 <!-- Footer -->
 <footer class="bg-gray-800 p-2 text-white">
