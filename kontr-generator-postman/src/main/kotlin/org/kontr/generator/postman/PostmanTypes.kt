@@ -1,6 +1,13 @@
 package org.kontr.generator.postman
 
+import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import org.kontr.dsl.HttpMethod
 
 /**
@@ -18,7 +25,7 @@ data class PostmanCollection(
 data class Item(
     val name: String,
     val request: Request? = null,
-    val response: List<Map<String, String>>? = null,
+    // val response: List<Map<String, String>>? = null, ignoring unknown keys
     val item: List<Item>? = null,
 )
 
@@ -66,4 +73,5 @@ data class Variable(
     val key: String,
     val value: String,
     val type: String? = null,
+    val description: String? = null,
 )

@@ -10,6 +10,7 @@ import java.nio.file.Paths
  * @author Domingo Gomez
  */
 class PostmanParser : IParser {
+    private val json = Json { ignoreUnknownKeys = true }
     override fun parseGeneratorCollection(inputPath: String): GeneratorCollection {
         val postmanCollection = parsePostmanCollection(Paths.get(inputPath))
         val generatorCollection = mapCollection(postmanCollection)
@@ -17,7 +18,7 @@ class PostmanParser : IParser {
     }
 
     private fun parsePostmanCollection(collectionFilePath: Path): PostmanCollection {
-        val postmanCollection = Json.decodeFromString<PostmanCollection>(collectionFilePath.toFile().readText())
+        val postmanCollection = json.decodeFromString<PostmanCollection>(collectionFilePath.toFile().readText())
         return PostmanCollection(postmanCollection.info, postmanCollection.item)
     }
 
