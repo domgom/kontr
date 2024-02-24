@@ -99,8 +99,7 @@
                     <label for="file"
                            class="bg-blue-800 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer mr-3">Select
                         File</label>
-                    <form id="form" hx-encoding="multipart/form-data" hx-post="/upload2" hx-target="#outputText"
-                          hx-swap="innerHTML">
+                    <form id="form" hx-encoding="multipart/form-data" hx-post="/upload2" hx-target="#outputText" hx-swap="innerHTML">
                         <input type="file" id="file" name="file" class="hidden">
                         <button type="submit"
                                 class="bg-purple-800 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded">Upload
@@ -117,6 +116,9 @@
                 <pre class="text-sm text-gray-200 bg-gray-900 w-full h-96 border border-gray-400 rounded mb-4 overflow-auto"><code
                         id="outputText" class="language-kotlin"></code></pre>
                 <div class="flex justify-end">
+                    <button id="clearOutput"
+                            class="bg-indigo-800 hover:bg-indigo-500 text-white font-bold py-2 px-4 mr-3 rounded"
+                            onclick="clearOutputText()">Clear</button>
                     <button id="copyOutput"
                             class="copy-button bg-blue-800 hover:bg-blue-500 text-white font-bold py-2 px-4 mr-3 rounded"
                             data-element-id="outputText">Copy
@@ -261,6 +263,14 @@
      });
  });
 
+ // Function to clear the inner HTML of the outputText element
+    function clearOutputText() {
+        // Get the outputText element
+        var outputTextElement = document.getElementById('outputText');
+
+        // Clear the inner HTML
+        outputTextElement.innerHTML = '';
+    }
 </script>
 <script src="prism.js"></script>
 </body>
