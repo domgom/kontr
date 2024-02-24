@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kontr DSL converter</title>
+    <link href="prism.css" rel="stylesheet"/>
     <script src="htmx.min.js"></script>
     <script src="tailwindcss.js"></script>
     <style>
@@ -99,7 +100,7 @@
                            class="bg-blue-800 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer mr-3">Select
                         File</label>
                     <form id="form" hx-encoding="multipart/form-data" hx-post="/upload2" hx-target="#outputText"
-                          hx-swap="innerHTML">
+                          hx-swap="innerHTML" onhtmx:afterSwap="console.log('htmx swap completed');">
                         <input type="file" id="file" name="file" class="hidden">
                         <button type="submit"
                                 class="bg-purple-800 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded">Upload
@@ -113,9 +114,8 @@
             <!-- Output Area -->
             <div class="bg-gray-800 p-3 rounded">
                 <p class="text-lg text-purple-100 pb-3 pl-2 font-bold">Generated DSL file</p>
-                <textarea id="outputText"
-                          class="text-sm text-gray-200 bg-gray-900 w-full h-64 border border-gray-400 rounded mb-4">
-                </textarea>
+                <pre class="text-sm text-gray-200 bg-gray-900 w-full h-64 border border-gray-400 rounded mb-4 overflow-auto"><code
+                        id="outputText" class="language-kotlin"></code></pre>
                 <div class="flex justify-end">
                     <button id="copyOutput"
                             class="copy-button bg-blue-800 hover:bg-blue-500 text-white font-bold py-2 px-4 mr-3 rounded"
@@ -156,7 +156,9 @@
                     // Handle successful upload
                     var response = xhr.responseText;
                     // Update inner HTML of element with ID "outputText"
-                    document.getElementById('outputText').innerHTML = response;
+                    var codeContainer = document.getElementById('outputText')
+                    codeContainer.innerHTML = response;
+                    Prism.highlightElement(codeContainer);
                 } else {
                     // Handle upload error
                     console.error('File upload error:', xhr.statusText);
@@ -167,6 +169,12 @@
             };
             xhr.send(formData);
         }
+    });
+
+    document.body.addEventListener('htmx:afterSwap', function(evt) {
+       console.log("swapped!");
+       evt.preventDefault();
+       Prism.highlightElement(evt.target);
     });
 </script>
 
@@ -233,4 +241,5 @@
  });
 
 </script>
+<script src="prism.js"></script>
 </body>
