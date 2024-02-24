@@ -100,7 +100,7 @@
                            class="bg-blue-800 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer mr-3">Select
                         File</label>
                     <form id="form" hx-encoding="multipart/form-data" hx-post="/upload2" hx-target="#outputText"
-                          hx-swap="innerHTML" onhtmx:afterSwap="console.log('htmx swap completed');">
+                          hx-swap="innerHTML">
                         <input type="file" id="file" name="file" class="hidden">
                         <button type="submit"
                                 class="bg-purple-800 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded">Upload
@@ -172,7 +172,6 @@
     });
 
     document.body.addEventListener('htmx:afterSwap', function(evt) {
-       console.log("swapped!");
        evt.preventDefault();
        Prism.highlightElement(evt.target);
     });
