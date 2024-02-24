@@ -11,6 +11,9 @@
     <script src="htmx.min.js"></script>
     <script src="tailwindcss.js"></script>
     <style>
+        :root {
+            --vdd-blue-color:#172439; /* very-dark-desaturated-blue */
+        }
         /* Style for the copy button */
         .copy-button {
             cursor: pointer;
@@ -80,7 +83,7 @@
             <!-- Input Area -->
             <div class="bg-gray-800 p-3 px-4 rounded">
                 <p class="text-lg text-purple-100 pb-3 pl-2 font-bold">Drag or select your Postman collection</p>
-                <div id="draggableArea" class="text-sm text-gray-200  w-full h-96 border border-dashed border-gray-400 rounded mb-4" style="background-color: #172439;">
+                <div id="draggableArea" class="text-sm text-gray-200  w-full h-96 border border-dashed border-gray-400 rounded mb-4" style="background-color: var(--vdd-blue-color);">
                     <div class="flex justify-center items-center mt-32">
                         <svg fill="#556581" opacity="0.4" height="120px" width="120px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 58 58" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -202,7 +205,7 @@
 </script>
 
 <!-- Footer -->
-<footer style="background-color: #172439;" class=" p-2 text-white">
+<footer style="background-color: var(--vdd-blue-color);" class=" p-2 text-white">
     <!-- Right Section -->
     <div class="flex-shrink-0 flex justify-end">
         <!-- Gradle Dependency -->
