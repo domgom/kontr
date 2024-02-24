@@ -53,7 +53,7 @@ data class Url(
 data class Body(
     val mode: String,
     val raw: String,
-    val options: Map<String, Map<String, String>>,
+    val options: Map<String, Map<String, String>>? = mutableMapOf(),
 )
 
 @Serializable
