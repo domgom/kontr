@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Page Title</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <title>Kontr DSL converter</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10/dist/htmx.min.js"></script>
+    <script src="https://cdn.tailwindcss.com/3.4.1"></script>
     <style>
         /* Style for the copy button */
         .copy-button {
@@ -50,8 +51,22 @@
 <!-- Main Content Container -->
 <div class="container mx-auto mt-8 p-4 flex-grow">
     <!-- Your content here -->
-    <p class="text-purple-100">This is the main content area.</p>
+    <p class="text-purple-100">Postman to Kontr DSL converter</p>
+
+    <!-- Draggable Area -->
+    <div class="w-full max-w-lg border border-dashed border-gray-400 p-4 mt-4 rounded cursor-move">
+        <p class="text-gray-400">Drag your file here or select your file</p>
+        <div>
+            <form id="form" hx-encoding="multipart/form-data" hx-post="/upload2" hx-target="#result" hx-swap="outerHTML">
+                <input type="file" name="file">
+                <button>Upload</button>
+            </form>
+            <div id="result"></div>
+        </div>
+    </div>
+
 </div>
+
 
 <!-- Footer -->
 <footer class="bg-gray-800 p-4 text-white">
