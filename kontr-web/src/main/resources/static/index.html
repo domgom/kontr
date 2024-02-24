@@ -81,7 +81,7 @@
         <!-- Left Area (Input) -->
         <div class="container w-1/2 mx-auto p-4">
             <!-- Input Area -->
-            <div class="bg-gray-800 p-3 px-4 rounded">
+            <div class="bg-gray-800 bg-opacity-50 p-3 px-4 rounded">
                 <p class="text-lg text-purple-100 pb-3 pl-2 font-bold">Drag or select your Postman collection</p>
                 <div id="draggableArea" class="text-sm text-gray-200  w-full h-96 border border-dashed border-gray-400 rounded mb-4" style="background-color: var(--vdd-blue-color);">
                     <div class="flex justify-center items-center mt-32">
@@ -110,7 +110,7 @@
         <!-- Right Area (Output) -->
         <div class="container w-1/2 mx-auto p-4">
             <!-- Output Area -->
-            <div class="bg-gray-800 p-3 px-4 rounded">
+            <div class="bg-gray-800 bg-opacity-50 p-3 px-4 rounded">
                 <p class="text-lg text-purple-100 pb-3 pl-2 font-bold">Generated DSL file</p>
                 <pre tabindex="0" style="margin: 0em; margin-bottom: 1rem" class="text-sm text-gray-200 bg-gray-900 w-full h-96 border border-gray-400 rounded mb-4 overflow-auto language-kotlin"><code id="outputText" class="language-kotlin"></code></pre>
                 <div class="flex justify-end">
@@ -205,15 +205,15 @@
 </script>
 
 <!-- Footer -->
-<footer style="background-color: var(--vdd-blue-color);" class=" p-2 text-white">
+<footer class="bg-gray-900 p-2 text-white">
     <!-- Right Section -->
     <div class="flex-shrink-0 flex justify-end">
         <!-- Gradle Dependency -->
         <div class="mb-2 p-1">
             <span class="block mb-2 font-bold">Gradle Dependency</span>
             <div class="flex items-center">
-                <code id="gradleDependency" class="bg-gray-900 text-xs text-white p-2 rounded border border-gray-400">implementation 'org.kontr:kontr-dsl:1.0.0'</code>
-                <button class="copy-button bg-blue-800 hover:bg-blue-500 text-xs text-white p-2 ml-2 mr-1 rounded" data-element-id="gradleDependency">Copy
+                <code id="gradleDependency" class="bg-gray-950 text-xs text-white p-2 rounded border border-gray-400">implementation 'org.kontr:kontr-dsl:1.0.0'</code>
+                <button data-element-id="gradleDependency" class="copy-button bg-blue-800 hover:bg-blue-500 font-bold text-xs text-white p-2 ml-2 mr-1 rounded">Copy
                 </button>
             </div>
         </div>
@@ -221,12 +221,12 @@
         <div class="mr-4 p-1">
             <span class="block mb-2 font-bold">Maven Dependency</span>
             <div class="flex items-center">
-                <code id="mavenDependency" class="bg-gray-900 text-xs text-white p-2 rounded border border-gray-400">&lt;dependency&gt;<br>
+                <code id="mavenDependency" class="bg-gray-950 text-xs text-white p-2 rounded border border-gray-400">&lt;dependency&gt;<br>
                     &nbsp;&nbsp;&nbsp;&nbsp;&lt;groupId&gt;org.kontr&lt;/groupId&gt;<br>
                     &nbsp;&nbsp;&nbsp;&nbsp;&lt;artifactId&gt;kontr-dsl&lt;/artifactId&gt;<br>
                     &nbsp;&nbsp;&nbsp;&nbsp;&lt;version&gt;1.0.0&lt;/version&gt;<br>
                     &lt;/dependency&gt;</code>
-                <button class="copy-button bg-blue-800 hover:bg-blue-500 text-xs text-white p-2 ml-2 rounded" data-element-id="mavenDependency">Copy
+                <button data-element-id="mavenDependency" class="copy-button bg-blue-800 hover:bg-blue-500 font-bold text-xs text-white p-2 ml-2 rounded">Copy
                 </button>
             </div>
         </div>
@@ -272,4 +272,40 @@
 </script>
 <script src="prism.js"></script>
 
-</body></html>
+<script>
+    (function() {
+      var ws = new WebSocket('ws://' + window.location.host +
+                 '/jb-server-page?reloadMode=RELOAD_ON_SAVE&'+
+                 'referrer=' + encodeURIComponent(window.location.pathname));
+      ws.onmessage = function (msg) {
+          if (msg.data === 'reload') {
+              window.location.reload();
+          }
+          if (msg.data.startsWith('update-css ')) {
+              var messageId = msg.data.substring(11);
+              var links = document.getElementsByTagName('link');
+              for (var i = 0; i < links.length; i++) {
+                  var link = links[i];
+                  if (link.rel !== 'stylesheet') continue;
+                  var clonedLink = link.cloneNode(true);
+                  var newHref = link.href.replace(/(&|\?)jbUpdateLinksId=\d+/, "$1jbUpdateLinksId=" + messageId);
+                  if (newHref !== link.href) {
+                    clonedLink.href = newHref;
+                  }
+                  else {
+                    var indexOfQuest = newHref.indexOf('?');
+                    if (indexOfQuest >= 0) {
+                      // to support ?foo#hash
+                      clonedLink.href = newHref.substring(0, indexOfQuest + 1) + 'jbUpdateLinksId=' + messageId + '&' +
+                                        newHref.substring(indexOfQuest + 1);
+                    }
+                    else {
+                      clonedLink.href += '?' + 'jbUpdateLinksId=' + messageId;
+                    }
+                  }
+                  link.replaceWith(clonedLink);
+              }
+          }
+      };
+    })();
+</script></body></html>
