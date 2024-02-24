@@ -5,6 +5,7 @@ This is just a scratch file to move features around until a stable 1.0.0 version
 mvn central publishing
 web version (render?) to upload collection and generate kontr dsl
 non String response bodies (using types for rq/rs bodies), (not filetype)
+breaking String multiline arguments (weather api put date)
 
 ## NICE TO HAVE
 html encoding of uri and query params (http client responsibility?)
@@ -23,9 +24,9 @@ proxy support
 follow redirects
 async client with coroutines
 context for extension functions (not really necessary as we don't extend classes that aren't ours so namespace pollution is negligible)
-prism.js for code highlighting in the website
 
 ## DONE
+✅prism.js for code highlighting in the website
 ✅show DSL colouring syntax on png capture in the documentation
 ✅handcrafted postman collection with one example of each case
 ✅rework kontr-examples, it's super messy now 
