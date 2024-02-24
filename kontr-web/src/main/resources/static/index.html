@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Style for the copy button */
+        .copy-button {
+            cursor: pointer;
+        }
+        /* Set min-height for code blocks */
+        code {
+            min-height: 8rem; /* Adjust as needed */
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100">
+<!-- Title Bar -->
+<header class="bg-blue-500 p-4 flex justify-between items-center">
+    <!-- Left Logo -->
+    <div class="flex items-center">
+        <img src="your_logo.png" alt="Logo" class="h-8 mr-2">
+        <span class="text-white font-bold text-lg">Your Title</span>
+    </div>
+    <!-- Right GitHub Repo Logo and Link -->
+    <div>
+        <a href="https://github.com/yourrepo" target="_blank" rel="noopener noreferrer">
+            <img src="github_logo.png" alt="GitHub Logo" class="h-6">
+        </a>
+    </div>
+</header>
+
+<!-- Main Content Container -->
+<div class="container mx-auto mt-8 p-4 h-3/5">
+    <!-- Your content here -->
+    <p>This is the main content area.</p>
+</div>
+
+<!-- Footer -->
+<footer class="bg-gray-800 p-4 text-white flex justify-between">
+    <!-- Right Section -->
+    <div class="flex-shrink-0">
+        <!-- Maven Dependency -->
+        <div class="mb-4">
+            <span class="block mb-2">Maven Dependency</span>
+            <div class="flex items-center">
+                <code class="bg-gray-900 text-white p-2 rounded w-full">
+                    &lt;dependency&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;groupId&gt;org.kontr&lt;/groupId&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;artifactId&gt;kontr-dsl&lt;/artifactId&gt;<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&lt;version&gt;1.0.0&lt;/version&gt;<br>
+                    &lt;/dependency&gt;
+                </code>
+                <button class="copy-button bg-blue-500 text-white ml-2 p-2 rounded">Copy</button>
+            </div>
+        </div>
+        <!-- Gradle Dependency -->
+        <div>
+            <span class="block mb-2">Gradle Dependency</span>
+            <div class="flex items-center">
+                <code class="bg-gray-900 text-white p-2 rounded w-full">
+                    implementation 'org.kontr:kontr-dsl:1.0.0'
+                </code>
+                <button class="copy-button bg-blue-500 text-white ml-2 p-2 rounded">Copy</button>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // JavaScript function to copy the Maven or Gradle dependency text to the clipboard
+    document.querySelectorAll('.copy-button').forEach(function(button) {
+        button.addEventListener('click', function() {
+            var codeBlock = this.previousElementSibling;
+            var textArea = document.createElement('textarea');
+            textArea.value = codeBlock.innerText;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            //alert('Dependency copied to clipboard!');
+        });
+    });
+</script>
+</body>
+
+</html>
