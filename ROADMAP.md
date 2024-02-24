@@ -23,6 +23,7 @@ proxy support
 follow redirects
 async client with coroutines
 context for extension functions (not really necessary as we don't extend classes that aren't ours so namespace pollution is negligible)
+prism.js for code highlighting in the website
 
 ## DONE
 ✅show DSL colouring syntax on png capture in the documentation
