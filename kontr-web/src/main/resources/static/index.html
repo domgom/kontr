@@ -140,7 +140,8 @@
                 if (xhr.status === 200) {
                     // Handle successful upload
                     var response = xhr.responseText;
-                    // Update output area or do something else with response
+                    // Update inner HTML of element with ID "outputText"
+                    document.getElementById('outputText').innerHTML = response;
                 } else {
                     // Handle upload error
                     console.error('File upload error:', xhr.statusText);
@@ -153,6 +154,7 @@
         }
     });
 </script>
+
 
 
 <!-- Footer -->
