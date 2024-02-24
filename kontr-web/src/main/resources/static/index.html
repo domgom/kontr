@@ -13,7 +13,7 @@
         }
         /* Set min-height for code blocks */
         code {
-            min-height: 8rem; /* Adjust as needed */
+            min-height: 9rem; /* Adjust as needed */
         }
     </style>
 </head>
@@ -41,10 +41,23 @@
 </div>
 <!-- Footer -->
 <footer class="bg-gray-800 p-4 text-white flex justify-between">
+    <!-- Left Spacer -->
+    <div class="flex-grow"></div> <!-- Added 'flex-grow' class -->
+
     <!-- Right Section -->
     <div class="flex-shrink-0 flex justify-end">
+        <!-- Gradle Dependency -->
+        <div class="mb-4 p-1">
+            <span class="block mb-2">Gradle Dependency</span>
+            <div class="flex items-center">
+                <code class="bg-gray-900 text-white p-2 rounded">
+                    implementation 'org.kontr:kontr-dsl:1.0.0'
+                </code>
+                <button class="copy-button bg-blue-500 text-white ml-2 p-2 rounded">Copy</button>
+            </div>
+        </div>
         <!-- Maven Dependency -->
-        <div class="mr-4">
+        <div class="mr-4 p-1">
             <span class="block mb-2">Maven Dependency</span>
             <div class="flex items-center">
                 <code class="bg-gray-900 text-white p-2 rounded">
@@ -57,18 +70,9 @@
                 <button class="copy-button bg-blue-500 text-white ml-2 p-2 rounded">Copy</button>
             </div>
         </div>
-        <!-- Gradle Dependency -->
-        <div>
-            <span class="block mb-2">Gradle Dependency</span>
-            <div class="flex items-center">
-                <code class="bg-gray-900 text-white p-2 rounded">
-                    implementation 'org.kontr:kontr-dsl:1.0.0'
-                </code>
-                <button class="copy-button bg-blue-500 text-white ml-2 p-2 rounded">Copy</button>
-            </div>
-        </div>
     </div>
 </footer>
+
 
 
 <script>
