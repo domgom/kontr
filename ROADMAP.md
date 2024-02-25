@@ -2,7 +2,6 @@
 This is just a scratch file to move features around until a stable 1.0.0 version
 
 ## MUST HAVE
-gha cli / web deployment / mvn central publishing
 non String response bodies (using types for rq/rs bodies), (not filetype)
 
 ## NICE TO HAVE
@@ -29,6 +28,7 @@ async client with coroutines
 context for extension functions (not really necessary as we don't extend classes that aren't ours so namespace pollution is negligible)
 
 ## DONE
+✅gha cli / web deployment / mvn central publishing
 ✅breaking String multiline arguments (weather api put date)
 ✅web version (render) to upload collection and generate kontr dsl
 ✅prism.js for code highlighting in the website
