@@ -12,7 +12,7 @@ import org.kontr.generator.postman.PostmanGenerator
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
-const val version = "1.0.0-SNAPSHOT"
+const val version = "1.0.0"
 private const val programName = "kontr-cli"
 
 class Cli {
