@@ -4,14 +4,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-
     <groupId>org.kontr</groupId>
     <artifactId>kontr</artifactId>
     <version>1.0.0</version>
@@ -25,6 +17,7 @@
         <kotlin.code.style>official</kotlin.code.style>
         <kotlin.compiler.jvmTarget>21</kotlin.compiler.jvmTarget>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
+        <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
     </properties>
 
     <modules>
@@ -88,6 +81,19 @@
                 <configuration>
                     <mainClass>MainKt</mainClass>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>${maven-source-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -175,4 +181,25 @@
         </dependencies>
     </dependencyManagement>
 
+    <!--maven central requirements-->
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+    <scm>
+        <connection>scm:git:git://github.com/domgom/kontr.git</connection>
+        <developerConnection>scm:git:ssh://github.com:domgom/kontr.git</developerConnection>
+        <url>http://github.com/domgom/kontr/tree/main</url>
+    </scm>
+    <developers>
+        <developer>
+            <name>Domingo Gomez</name>
+            <email>notanemail@kontr.org</email>
+            <organization>Kontr</organization>
+            <organizationUrl>https://github.com/domgom/kontr</organizationUrl>
+        </developer>
+    </developers>
 </project>
