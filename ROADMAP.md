@@ -4,9 +4,13 @@ This is just a scratch file to move features around until a stable 1.0.0 version
 ## MUST HAVE
 gha cli / web deployment / mvn central publishing
 non String response bodies (using types for rq/rs bodies), (not filetype)
-breaking String multiline arguments (weather api put date)
 
 ## NICE TO HAVE
+web not write files in the server
+web fix wording and spacing of the left side
+web package name, filename, env variable name and other options
+web take current version for maven and gradle blocks
+
 html encoding of uri and query params (http client responsibility?)
 openapi to rq{}
 rework CLI to make it interactive and usable (like https://github.com/trietsch/spotify-cli)
@@ -25,6 +29,7 @@ async client with coroutines
 context for extension functions (not really necessary as we don't extend classes that aren't ours so namespace pollution is negligible)
 
 ## DONE
+✅breaking String multiline arguments (weather api put date)
 ✅web version (render) to upload collection and generate kontr dsl
 ✅prism.js for code highlighting in the website
 ✅show DSL colouring syntax on png capture in the documentation

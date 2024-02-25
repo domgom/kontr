@@ -71,7 +71,7 @@ class Generator {
             .returns(RequestDsl::class)
             .addCode(
                 CodeBlock.of(
-                    "return ${request.method.name.lowercase()}(\"${replaceAllVars(request)}\"){ ${generateOnResponse()}\n"
+                    "return ${request.method.name.lowercase()}(\"${replaceAllVars(request)}\")"
                 )
             )
 
@@ -84,14 +84,20 @@ class Generator {
             requestFunction.addParameter(buildTypedValue(key, typedValue))
         }
 
+        requestFunction.addStatement("{⇥⇥")
         request.header.forEach { (key, value) ->
-            requestFunction.addStatement("header(\"%L\", \"%L\")", replaceEnvVariables(key), replaceEnvVariables(value))
+            requestFunction.addStatement(
+                "header(\"%L\", \"%L\")",
+                replaceEnvVariables(key),
+                replaceEnvVariables(value)
+            )
         }
 
         request.body?.let {
             requestFunction.addStatement("body = %P", replaceEnvVariables(it))
         }
-        requestFunction.addCode(CodeBlock.of("}"))
+        requestFunction.addStatement("${generateOnResponse()}")
+        requestFunction.addCode(CodeBlock.of("⇤⇤}"))
 
         return requestFunction.build()
     }
@@ -103,7 +109,7 @@ class Generator {
             .defaultValue(
                 when (typedValue) {
                     is Long -> "%L"
-                    else -> "\"%L\"" // defaults unrecognised types to String
+                    else -> "%S" // defaults unrecognised types to String
                 }, typedValue
             )
             .build()

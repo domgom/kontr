@@ -27,7 +27,8 @@ class CollectionGenerationTest {
         outputFile.inputStream().use { it.copyTo(System.out) }
         // TODO improve to have good assertions but for now this is better than nothing to know if output changes
         assertThat(outputFile.readText()).isEqualTo(
-            "package org.example.generated\n\n" +
+            "package org.example.generated\n" +
+                    "\n" +
                     "import kotlin.Long\n" +
                     "import kotlin.String\n" +
                     "import org.example.generated.Env.baseUrl\n" +
@@ -44,11 +45,13 @@ class CollectionGenerationTest {
                     "\n" +
                     "public class WeatherAPI {\n" +
                     "  public fun CollectionDsl.`Get Current Weather`(city: String = \"San Francisco\"): RequestDsl =\n" +
-                    "      get(\"\${baseUrl}/current?city=\${city}\"){ onResponse{ healthy }\n" +
+                    "      get(\"\${baseUrl}/current?city=\${city}\"){\n" +
+                    "      onResponse{ healthy }\n" +
                     "  }\n" +
                     "\n" +
                     "  public fun CollectionDsl.`Get Forecast`(daysAhead: Long = 5): RequestDsl =\n" +
-                    "      get(\"\${baseUrl}/forecast?daysAhead=\${daysAhead}\"){ onResponse{ healthy }\n" +
+                    "      get(\"\${baseUrl}/forecast?daysAhead=\${daysAhead}\"){\n" +
+                    "      onResponse{ healthy }\n" +
                     "  }\n" +
                     "\n" +
                     "  public fun CollectionDsl.`Get Historical Weather Data`(): RequestDsl = get(\"\${baseUrl}/history\"){\n" +
@@ -56,15 +59,15 @@ class CollectionGenerationTest {
                     "  }\n" +
                     "\n" +
                     "  public fun CollectionDsl.`Update Weather Information`(cityId: Long = 1_542, date: String =\n" +
-                    "      \"2024-07-01T00:00:00Z\"): RequestDsl = put(\"\${baseUrl}/weather/\${cityId}/\${date}\"){ onResponse{\n" +
-                    "      healthy }\n" +
-                    "  header(\"Authorization\", \"Bearer \${token}\")\n" +
-                    "  body = \"\"\"{'temperature': 25, 'conditions': 'Partly Cloudy'}\"\"\"\n" +
+                    "      \"2024-07-01T00:00:00Z\"): RequestDsl = put(\"\${baseUrl}/weather/\${cityId}/\${date}\"){\n" +
+                    "      header(\"Authorization\", \"Bearer \${token}\")\n" +
+                    "      body = \"\"\"{'temperature': 25, 'conditions': 'Partly Cloudy'}\"\"\"\n" +
+                    "      onResponse{ healthy }\n" +
                     "  }\n" +
                     "\n" +
                     "  public fun CollectionDsl.`Delete Weather Data`(): RequestDsl = delete(\"\${baseUrl}/weather\"){\n" +
+                    "      header(\"Authorization\", \"Bearer \${token}\")\n" +
                     "      onResponse{ healthy }\n" +
-                    "  header(\"Authorization\", \"Bearer \${token}\")\n" +
                     "  }\n" +
                     "\n" +
                     "  public fun runCollection() {\n" +
