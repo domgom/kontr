@@ -36,6 +36,8 @@ jobs:
 
       - name: Release to Maven repo
         run: |
+          ls -lart ~/.m2/
+          cat ~/.m2/settings.xml
           mvn -Dgpg.keyname=${{ secrets.GPG_KEY_NAME }} -Dgpg.passphrase=${{ secrets.MAVEN_SIGNING_KEY_PASSPHRASE }} \
           deploy
         env:
