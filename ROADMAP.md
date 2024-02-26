@@ -6,7 +6,6 @@ non String response bodies (using types for rq/rs bodies), (not filetype)
 
 ## NICE TO HAVE
 web not write files in the server
-web fix wording and spacing of the left side
 web package name, filename, env variable name and other options
 web take current version for maven and gradle blocks
 
@@ -28,6 +27,8 @@ async client with coroutines
 context for extension functions (not really necessary as we don't extend classes that aren't ours so namespace pollution is negligible)
 
 ## DONE
+✅web filter only *.json files in select button
+✅web fix wording and spacing of the left side
 ✅gha cli / web deployment / mvn central publishing
 ✅breaking String multiline arguments (weather api put date)
 ✅web version (render) to upload collection and generate kontr dsl
