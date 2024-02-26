@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>kontr-http-client-ok</artifactId>
-    <version>1.0.0</version>
 
     <parent>
         <groupId>org.kontr</groupId>
         <artifactId>kontr</artifactId>
-        <version>1.0.0</version>
+        <version>${revision}</version>
     </parent>
+
 
     <build>
         <sourceDirectory>src/main/kotlin</sourceDirectory>
