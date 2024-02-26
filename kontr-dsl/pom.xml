@@ -5,9 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Kontr is an opensource project to leverage the power of Kotlin DSL to make a simple and expressive api to create http requests. This artifact contains all the necessary DSL classes to create your own Kontr testing workflow.</description>
-    <url>https://github.com/domgom/kontr</url>
+    <url>https://kontr.org</url>
 
     <artifactId>kontr-dsl</artifactId>
+    <version>${revision}</version>
 
     <parent>
         <groupId>org.kontr</groupId>
