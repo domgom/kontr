@@ -4,11 +4,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <name>${project.groupId}:${project.artifactId}</name>
-    <description>Kontr is an opensource project to leverage the power of Kotlin DSL to make a simple and expressive api to create http requests. This is the parent artifact that defines dependency management and common config</description>
-    <url>https://kontr.org</url>
+    <description>Kontr is an opensource project to leverage the power of Kotlin DSL to make a simple and expressive api
+        to create http requests. This is the parent artifact that defines dependency management and common config
+    </description>
+    <url>https://github.com/domgom/kontr/tree/main</url>
 
     <groupId>org.kontr</groupId>
-    <artifactId>kontr</artifactId>
+    <artifactId>kontr-parent</artifactId>
     <version>${revision}</version>
     <packaging>pom</packaging>
 
@@ -120,6 +122,32 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>flatten-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <!-- enable flattening -->
+                    <execution>
+                        <id>flatten</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>flatten</goal>
+                        </goals>
+                    </execution>
+                    <!-- ensure proper cleanup -->
+                    <execution>
+                        <id>flatten.clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <flattenMode>oss</flattenMode>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.sonatype.central</groupId>
                 <artifactId>central-publishing-maven-plugin</artifactId>
                 <version>0.3.0</version>
@@ -129,6 +157,15 @@
                     <tokenAuth>true</tokenAuth>
                     <autoPublish>false</autoPublish>
                     <waitUntil>uploaded</waitUntil>
+                    <skipPublishing>false</skipPublishing><!-- remove me-->
+                    <excludeArtifacts>
+                        <excludeArtifact>kontr-cli</excludeArtifact>
+                        <excludeArtifact>kontr-examples</excludeArtifact>
+                        <excludeArtifact>kontr-generator-core</excludeArtifact>
+                        <excludeArtifact>kontr-generator-postman</excludeArtifact>
+                        <excludeArtifact>kontr-web</excludeArtifact>
+                        <excludeArtifact>kontr-parent</excludeArtifact>
+                    </excludeArtifacts>
                 </configuration>
             </plugin>
         </plugins>

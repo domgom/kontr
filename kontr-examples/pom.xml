@@ -5,16 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
     <name>${project.groupId}:${project.artifactId}</name>
     <description>Demo project to showcase some of the Kontr DSL features. Can be used as a template for new projects.</description>
-    <url>https://kontr.org</url>
 
     <artifactId>kontr-examples</artifactId>
     <version>${revision}</version>
     <parent>
         <groupId>org.kontr</groupId>
-        <artifactId>kontr</artifactId>
+        <artifactId>kontr-parent</artifactId>
         <version>${revision}</version>
     </parent>
-
 
     <build>
         <sourceDirectory>src/main/kotlin</sourceDirectory>
@@ -62,26 +60,4 @@
             <artifactId>logback-classic</artifactId>
         </dependency>
     </dependencies>
-
-    <!--maven central requirements-->
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-    <scm>
-        <connection>scm:git:git://github.com/domgom/kontr.git</connection>
-        <developerConnection>scm:git:ssh://github.com:domgom/kontr.git</developerConnection>
-        <url>http://github.com/domgom/kontr/tree/main</url>
-    </scm>
-    <developers>
-        <developer>
-            <name>Domingo Gomez</name>
-            <email>notanemail@kontr.org</email>
-            <organization>Kontr</organization>
-            <organizationUrl>https://github.com/domgom/kontr</organizationUrl>
-        </developer>
-    </developers>
 </project>
