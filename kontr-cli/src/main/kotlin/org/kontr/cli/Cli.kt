@@ -4,6 +4,7 @@ package org.kontr.cli
  * @author Domingo Gomez
  */
 //TODO migrate kotlinx.cli (unmaintained) to another cli tool.
+import KONTR_VERSION
 import kotlinx.cli.ArgParser
 import kotlinx.cli.ArgType
 import kotlinx.cli.ExperimentalCli
@@ -12,7 +13,7 @@ import org.kontr.generator.postman.PostmanGenerator
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
-const val version = "1.0.0"
+
 private const val programName = "kontr-cli"
 
 class Cli {
@@ -98,7 +99,7 @@ class Cli {
         }
 
         private fun doVersion() {
-            println("kontr-cli version $version")
+            println("kontr-cli version $KONTR_VERSION")
         }
 
         private fun doCollection(collection: String) {

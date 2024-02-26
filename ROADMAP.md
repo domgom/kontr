@@ -7,7 +7,6 @@ non String response bodies (using types for rq/rs bodies), (not filetype)
 ## NICE TO HAVE
 web not write files in the server
 web package name, filename, env variable name and other options
-web take current version for maven and gradle blocks
 
 html encoding of uri and query params (http client responsibility?)
 openapi to rq{}
@@ -27,6 +26,7 @@ async client with coroutines
 context for extension functions (not really necessary as we don't extend classes that aren't ours so namespace pollution is negligible)
 
 ## DONE
+✅web take current version for maven and gradle blocks. Also README.md
 ✅web filter only *.json files in select button
 ✅web fix wording and spacing of the left side
 ✅gha cli / web deployment / mvn central publishing

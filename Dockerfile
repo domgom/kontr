@@ -1,7 +1,7 @@
 FROM maven:3.9.6-eclipse-temurin-21 as build
 COPY ./ /home/maven/src
 WORKDIR /home/maven/src
-RUN mvn install package
+RUN mvn package -Dgpg.skip=true
 
 FROM eclipse-temurin:21
 EXPOSE 8080:8080

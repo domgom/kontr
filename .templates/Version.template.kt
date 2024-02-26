@@ -1,0 +1,1 @@
+const val KONTR_VERSION = "${revision}"

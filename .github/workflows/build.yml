@@ -37,6 +37,7 @@ jobs:
       - name: Release to Maven repo
         run: |          
           mvn -Dgpg.keyname=${{ secrets.GPG_KEY_NAME }} -Dgpg.passphrase=${{ secrets.MAVEN_SIGNING_KEY_PASSPHRASE }} \
+          pre-site \
           deploy
         env:
           MVN_CENTRAL_USERNAME: ${{ secrets.MVN_CENTRAL_USERNAME }}
