@@ -157,7 +157,7 @@
                     <tokenAuth>true</tokenAuth>
                     <autoPublish>false</autoPublish>
                     <waitUntil>uploaded</waitUntil>
-                    <skipPublishing>false</skipPublishing><!-- remove me-->
+                    <deploymentName>kontr-${revision}</deploymentName>
                     <excludeArtifacts>
                         <excludeArtifact>kontr-cli</excludeArtifact>
                         <excludeArtifact>kontr-examples</excludeArtifact>
