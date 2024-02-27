@@ -1,5 +1,6 @@
-# Kontr
-Kontr ([pronounced as Contour](https://dictionary.cambridge.org/pronunciation/english/contour)) is an opensource project to leverage the power of Kotlin DSL to make a simple and expressive api to create http requests. 
+![Kontr logo, o is generated using spyrograph concentric circles](.img/kontr-text-and-logo-dark-bg.svg)
+
+Kontr ([pronounced as Contour](https://dictionary.cambridge.org/pronunciation/english/contour)) is an opensource project to leverage the power of Kotlin DSL to make a simple and expressive api to create http requests.
 
 Disclaimer: you shouldn't use Kontr for performance testing, use https://github.com/gatling instead.
 
@@ -11,12 +12,27 @@ The recommended versions are the latest ones available:
 - Java 21 or higher
 - Kotlin 1.9.22 or higher
 
+## Dependencies
+#### Maven
+```xml
+<dependency>
+  <groupId>org.kontr</groupId>
+  <artifactId>kontr-dsl</artifactId>
+  <version>${project.version}</version>
+</dependency>
+```
+#### Gradle
+```kts
+implementation("org.kontr:kontr-dsl:${project.version}")
+```
+#### Central
+https://repo1.maven.org/maven2/org/kontr/kontr-dsl/
 #### Old versions support
 No support to other versions is provided, although it should be possible to downgrade without much effort.
 #### Minimalistic standalone approach
-We try to keep the external dependencies to a minimum (`kotlin-stdlib` and `slf4j-api`) but we still recommend to have a new project for the kontr files. 
-#### Creating a new project 
-The project [kontr-examples](/kontr-examples) should be a good starting point for a new project and includes `assertj-core` and `json-unit` for convenient assertion writing. 
+We try to keep the external dependencies to a minimum (`kotlin-stdlib` and `slf4j-api`) but we still recommend to have a new project for the kontr files.
+#### Creating a new project
+The project [kontr-examples](/kontr-examples) should be a good starting point for a new project and includes `assertj-core` and `json-unit` for convenient assertion writing.
 
 ## DSL examples
 This is the simplest usage example:
@@ -137,7 +153,7 @@ We recommend Intellij as the IDE for Kontr (and really any Kotlin project). We g
 
 ![Screenshot of IntelliJ editor showing Kontr's DSL colouring](.img/weather-api-syntax-hightlight.png)
 
-*Roadmap includes the future evaluation of Kotlin script files (.kts) to incorporate Kontr to your project even easier. 
+*Roadmap includes the future evaluation of Kotlin script files (.kts) to incorporate Kontr to your project even easier.
 
 ## Architecture
 Kontr has a modular architecture so new extensions like other http clients or openapi generator can be included in the future.
@@ -150,7 +166,7 @@ Kontr has a modular architecture so new extensions like other http clients or op
 - Only available request/response `body` type is String, no object serialisation/de-serialisation is available.
 - Needs to be built locally, no mvn central publishing yet.
 - Doesn't work with proxies.
-- Open api format is not yet integrated, for the time being you can directly import your openapi collection to postman and export the postman collection. 
+- Open api format is not yet integrated, for the time being you can directly import your openapi collection to postman and export the postman collection.
 
 ## Future updates
 Roadmap: work in progress
