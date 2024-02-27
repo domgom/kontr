@@ -5,7 +5,7 @@ This is just a scratch file to move features around until a stable 1.0.0 version
 non String response bodies (using types for rq/rs bodies), (not filetype)
 
 ## NICE TO HAVE
-web not write files in the server
+LOGO!
 web package name, filename, env variable name and other options
 
 html encoding of uri and query params (http client responsibility?)
@@ -15,7 +15,7 @@ kotlin-script
 add summary? (only if stopOnAssertionError == false?)
 add System env var for secrets?
 better Env support to have several objects and change from one another with ease
-proper github friendly readme and github publish
+github cli version & publish
 media types
 non String types in headers
 a test localhost server instead of typicode
@@ -26,6 +26,9 @@ async client with coroutines
 context for extension functions (not really necessary as we don't extend classes that aren't ours so namespace pollution is negligible)
 
 ## DONE
+✅proper github friendly readme
+✅web disclaimer: no cookies, no saved data
+✅web not write files in the server
 ✅web take current version for maven and gradle blocks. Also README.md
 ✅web filter only *.json files in select button
 ✅web fix wording and spacing of the left side

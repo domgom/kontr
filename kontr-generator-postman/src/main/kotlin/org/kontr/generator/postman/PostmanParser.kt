@@ -3,22 +3,29 @@ package org.kontr.generator.postman
 import kotlinx.serialization.json.Json
 import org.kontr.generator.core.GeneratorCollection
 import org.kontr.generator.core.IParser
+import java.io.File
+import java.io.InputStream
+import java.io.InputStreamReader
 import java.nio.file.Path
-import java.nio.file.Paths
 
 /**
  * @author Domingo Gomez
  */
 class PostmanParser : IParser {
     private val json = Json { ignoreUnknownKeys = true }
-    override fun parseGeneratorCollection(inputPath: String): GeneratorCollection {
-        val postmanCollection = parsePostmanCollection(Paths.get(inputPath))
+
+    fun parseGeneratorCollection(inputPath: String): GeneratorCollection =
+        parseGeneratorCollection(File(inputPath).inputStream())
+
+    override fun parseGeneratorCollection(collection: InputStream): GeneratorCollection {
+        val postmanCollection = parsePostmanCollection(collection)
         val generatorCollection = mapCollection(postmanCollection)
         return generatorCollection
     }
 
-    private fun parsePostmanCollection(collectionFilePath: Path): PostmanCollection {
-        val postmanCollection = json.decodeFromString<PostmanCollection>(collectionFilePath.toFile().readText())
+    private fun parsePostmanCollection(collection: InputStream): PostmanCollection {
+        val json = Json { ignoreUnknownKeys = true }
+        val postmanCollection = json.decodeFromString<PostmanCollection>(InputStreamReader(collection).readText())
         return PostmanCollection(postmanCollection.info, postmanCollection.item)
     }
 

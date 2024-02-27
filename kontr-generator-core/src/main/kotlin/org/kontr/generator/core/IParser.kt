@@ -1,8 +1,10 @@
 package org.kontr.generator.core;
 
+import java.io.InputStream
+
 /**
  * @author Domingo Gomez
  */
 interface IParser {
-    fun parseGeneratorCollection(inputPath: String): GeneratorCollection
+    fun parseGeneratorCollection(collection: InputStream): GeneratorCollection
 }

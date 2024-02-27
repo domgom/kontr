@@ -4,7 +4,7 @@ Kontr ([pronounced as Contour](https://dictionary.cambridge.org/pronunciation/en
 Disclaimer: you shouldn't use Kontr for performance testing, use https://github.com/gatling instead.
 
 ## Important warning
-Current version is 0.0.1 and although is fairly usable please consider it **EXPERIMENTAL** with DSL interfaces subjected to changes.
+Current version is 0.0.2-SNAPSHOT and although is fairly usable please consider it **EXPERIMENTAL** with DSL interfaces subjected to changes.
 
 ## Requirements
 The recommended versions are the latest ones available:
@@ -74,7 +74,7 @@ private fun CollectionDsl.verifyLicense(licenseName : String) {
 We can also generate those functions from postman collections, so we can focus on building testing workflows instead of crafting the requests individually.
 ```cmd
 // on project root
-mvn jar:jar && java -jar kontr-cli/target/kontr-cli-0.0.1-jar-with-dependencies.jar gp "kontr-generator-postman/src/test/resources/weather.api.postman_collection.json" "kontr-cli/target/generated-sources/postman" "org.example.generated" "Collection"
+mvn jar:jar && java -jar kontr-cli/target/kontr-cli-0.0.2-SNAPSHOT-jar-with-dependencies.jar gp "kontr-generator-postman/src/test/resources/weather.api.postman_collection.json" "kontr-cli/target/generated-sources/postman" "org.example.generated" "Collection"
 ```
 
 We have now https://kontr.onrender.com/ where you can generate online your Kontr DSL files uploading the Postman collections! :rocket:

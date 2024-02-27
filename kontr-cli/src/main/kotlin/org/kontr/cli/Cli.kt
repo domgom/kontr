@@ -113,7 +113,7 @@ class Cli {
 
         private fun doGeneratorPostman(generatorPostmanSubcommand: GeneratorPostmanSubcommand) {
             with(generatorPostmanSubcommand) {
-                PostmanGenerator().generate(
+                PostmanGenerator().generateFromFileToFile(
                     inputPath = inputPath,
                     outputPath = outputDir,
                     packageName = packageName,
