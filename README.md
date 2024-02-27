@@ -7,11 +7,6 @@ Disclaimer: you shouldn't use Kontr for performance testing, use https://github.
 ## Important warning
 Current version is 0.0.1 and although is fairly usable please consider it **EXPERIMENTAL** with DSL interfaces subjected to changes.
 
-## Requirements
-The recommended versions are the latest ones available:
-- Java 21 or higher
-- Kotlin 1.9.22 or higher
-
 ## Dependencies
 #### Maven
 ```xml
@@ -27,6 +22,12 @@ implementation("org.kontr:kontr-dsl:0.0.1")
 ```
 #### Central
 https://repo1.maven.org/maven2/org/kontr/kontr-dsl/
+
+## Requirements
+The recommended versions are the latest ones available:
+- Java 21 or higher
+- Kotlin 1.9.22 or higher
+
 #### Old versions support
 No support to other versions is provided, although it should be possible to downgrade without much effort.
 #### Minimalistic standalone approach
