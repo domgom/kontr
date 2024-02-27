@@ -1,4 +1,5 @@
-# Kontr
+![Kontr logo, o is generated using spyrograph concentric circles](.img/kontr-text-and-logo-dark-bg.svg)
+
 Kontr ([pronounced as Contour](https://dictionary.cambridge.org/pronunciation/english/contour)) is an opensource project to leverage the power of Kotlin DSL to make a simple and expressive api to create http requests. 
 
 Disclaimer: you shouldn't use Kontr for performance testing, use https://github.com/gatling instead.
