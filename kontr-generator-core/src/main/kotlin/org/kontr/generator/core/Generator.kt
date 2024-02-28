@@ -66,7 +66,7 @@ class Generator {
     }
 
     private fun getRequestBlock(name: String, request: Request): FunSpec {
-        val requestFunction = FunSpec.builder(name)
+        val requestFunction = FunSpec.builder(name.allowedFunName())
             .receiver(CollectionDsl::class.java)
             .returns(RequestDsl::class)
             .addCode(
@@ -168,4 +168,7 @@ class Generator {
         // Ensure the class name is a valid Kotlin identifier
         return this.replace(Regex("[^A-Za-z0-9_]"), "").capitalize()
     }
+    private fun String.allowedFunName(): String = this.replace("[.:\\\\/\\[\\]<>]".toRegex(), " ")
 }
+
+
