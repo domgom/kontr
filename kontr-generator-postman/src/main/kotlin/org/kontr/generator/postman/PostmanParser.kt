@@ -64,7 +64,9 @@ class PostmanParser : IParser {
     private fun mapItems(item: List<Item>): List<org.kontr.generator.core.Item> = item.map {
         org.kontr.generator.core.Item(
             name = it.name,
-            items = it.item?.map { mapItem(it) }
+            request = if (it.request == null) null else mapRequest(it.request),
+            items = it.item?.map { mapItem(it) },
+
         )
     }
 

@@ -34,17 +34,14 @@ class Generator {
         val functionNames: List<String> = mutableListOf()
 
         items.forEach { item ->
-            when {
-                item.request != null -> {
-                    parentBuilder.addFunction(getRequestBlock(item.name, item.request))
-                    functionNames.addLast(item.name)
-                }
-
-                item.items != null -> {
-                    val nestedClassBuilder = TypeSpec.classBuilder(item.name.toClassName())
-                    generateNestedItems(item.items, nestedClassBuilder)
-                    parentBuilder.addType(nestedClassBuilder.build())
-                }
+            if (item.items != null) {
+                val nestedClassBuilder = TypeSpec.classBuilder(item.name.toClassName())
+                generateNestedItems(item.items, nestedClassBuilder)
+                parentBuilder.addType(nestedClassBuilder.build())
+            }
+            if (item.request != null) {
+                parentBuilder.addFunction(getRequestBlock(item.name, item.request))
+                functionNames.addLast(item.name)
             }
         }
         addCollectionWithRequests(functionNames, parentBuilder)
@@ -168,6 +165,7 @@ class Generator {
         // Ensure the class name is a valid Kotlin identifier
         return this.replace(Regex("[^A-Za-z0-9_]"), "").capitalize()
     }
+
     private fun String.allowedFunName(): String = this.replace("[.:\\\\/\\[\\]<>]".toRegex(), " ")
 }
 

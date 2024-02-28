@@ -17,7 +17,7 @@ data class Item(
     val items: List<Item>? = null,
 ) {
     fun isRequest() = request != null
-    fun isFolder() = request == null
+    fun isFolder() = items != null
 }
 
 data class Request(
