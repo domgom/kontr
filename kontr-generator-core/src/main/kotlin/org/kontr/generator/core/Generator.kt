@@ -57,7 +57,7 @@ class Generator {
         if (functionNames.isNotEmpty()) {
             val block = CodeBlock.builder().add("val c = collection{\n").indent()
             functionNames.forEach {
-                block.add(if (it.contains(" ")) "`$it`()\n" else "$it()\n")
+                block.add("`${it.allowedFunName()}`()\n")
             }
             block.unindent().add("}").build()
 
