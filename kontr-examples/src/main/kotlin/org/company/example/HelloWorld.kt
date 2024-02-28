@@ -15,7 +15,7 @@ private fun CollectionDsl.checkReadme() {
     get("https://raw.githubusercontent.com/domgom/kontr/main/README.md") {
         headers { Accept("text/html") }
         onResponse { healthy }
-        onResponse { assertThat(body).startsWith("# Kontr") }
+        onResponse { assertThat(body).startsWith("![Kontr logo") }
     }
 }
 

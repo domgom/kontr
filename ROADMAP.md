@@ -6,7 +6,6 @@ non String response bodies (using types for rq/rs bodies), (not filetype)
 
 ## NICE TO HAVE
 rethink generator / postman generator structure so config options can flow from the frontend easier
-print class and line of caller aliased functions so you can click on it with intellij
 add gradle examples project
 openapi to rq{}
 web package name, filename, env variable name and other options
@@ -22,10 +21,12 @@ non String types in headers
 a test localhost server instead of typicode
 more tests, reuse tests between different http clients
 proxy support
-follow redirects
+optionally follow redirects
 async client with coroutines
+if request.body.options.language.json and not content-type, default to application/json? probably unnecessary
 
 ## DONE
+✅print class and line of caller aliased functions so you can click on it with intellij
 ✅instead of nested classes, evaluate object with fun names made of path + name or another grouping way
 ✅investigate possible missing methods in postman collections
 ✅add postman v2.1 collection accepted format warning

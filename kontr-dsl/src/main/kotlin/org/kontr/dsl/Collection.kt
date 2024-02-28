@@ -43,7 +43,8 @@ open class Collection {
     private fun processRequest(rq: RequestDsl) {
         rq.evalPreScript()
         requests.add(rq)
-        rq.printRequest(getCallingMethodName())
+        val (callingMethodName, classLine) = getCallingMethod()
+        rq.printRequest(callingMethodName, classLine)
         val rs = client.execute(rq)
         responses.add(rs)
         try {
@@ -65,15 +66,17 @@ open class Collection {
     fun post(url: String, builder: RequestDsl.() -> Unit): RequestDsl =
         buildRequestInternal(url, POST, builder)
 
-    private fun getCallingMethodName(): String? {
+    private fun getCallingMethod(): Pair<String?, String?> {
         val stackTrace = Thread.currentThread().stackTrace
         for (i in 4 until minOf(8, stackTrace.size)) {
             val methodName = stackTrace[i].methodName
+            val classLine = "${stackTrace[i].fileName}:${stackTrace[i].lineNumber}"
+
             if (!stackTrace[i].className.startsWith(Collection::class.java.canonicalName)) {
-                return if (methodName == "invoke") null else methodName
+                return if (methodName == "invoke") Pair(null, null) else Pair(methodName, classLine)
             }
         }
-        return null
+        return Pair(null, null)
     }
 
     @DslColour4

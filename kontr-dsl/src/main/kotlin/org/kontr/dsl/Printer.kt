@@ -7,6 +7,7 @@ import org.kontr.dsl.Colours.RED
 import org.kontr.dsl.Colours.YELLOW
 import org.kontr.dsl.Configuration.maxRequestAliasLength
 import org.kontr.dsl.Configuration.prefixRQRS
+import org.kontr.dsl.Configuration.printCallingClassAndLine
 import org.kontr.dsl.Configuration.useColours
 import org.kontr.dsl.Configuration.useLogger
 import org.kontr.dsl.Styles.ITALIC
@@ -24,6 +25,7 @@ object Colours {
     const val YELLOW = "\u001b[93m"
     const val GREEN = "\u001b[32m"
     const val END = "\u001b[0m"
+    const val BLACK = "\u001B[30m"
 }
 
 object Styles {
@@ -35,11 +37,16 @@ object Kontr
 
 val logger: Logger = LoggerFactory.getLogger(Kontr::class.java)
 
-fun Request.printRequest(requestAlias: String?) =
-    flush("${prefRQ()}${requestAlias(requestAlias)}${rightArrow()} ${alias ?: "$method $url"}${body?.let { " $it" } ?: ""}".take(
-        160
-    ))
-
+fun Request.printRequest(requestAlias: String?, classLine: String?) =
+    flush(
+        "${prefRQ()}${
+            requestAlias(
+                requestAlias,
+                classLine
+            )
+        }${rightArrow()} ${alias ?: "$method $url"}${body?.let { " $it" } ?: ""}".take(
+            160
+        ))
 
 fun Response.printResponse(assertResult: Boolean) =
     flush("${prefRS()}${leftArrow()} ${statusCode()} ${assertResult(assertResult)} ${oneLineBody()}")
@@ -49,9 +56,19 @@ private fun prefRQ(): String = if (prefixRQRS) "RQ " else " "
 private fun prefRS(): String = if (prefixRQRS) "RS " else " "
 
 
-private fun requestAlias(alias: String?): String =
-    alias?.let { if (useColours) "$ITALIC$BLUE${((it).take(maxRequestAliasLength) + "()").padEnd(maxRequestAliasLength)} $END$ITALIC_END" else "$it() " }
-        ?: ""
+private fun requestAlias(alias: String?, classLine: String?): String = alias?.let {
+    if (useColours) {
+        if (it.length + (classLine?.length ?: 0) + 3 <= maxRequestAliasLength) {
+            "$ITALIC$BLUE${(it + "()" + END + ITALIC_END + classLine(classLine)).padEnd(maxRequestAliasLength +10)} "
+        } else {
+            "$ITALIC$BLUE${(it.take(maxRequestAliasLength) + "()").padEnd(maxRequestAliasLength+2)}$END$ITALIC_END "
+        }
+    } else "$it() "
+}
+    ?: ""
+
+private fun classLine(classLine: String?): String =
+    classLine?.let { if (printCallingClassAndLine) ".($classLine)" else "" } ?: ""
 
 internal fun assertResult(assertResult: Boolean): String {
     return if (useColours) {
