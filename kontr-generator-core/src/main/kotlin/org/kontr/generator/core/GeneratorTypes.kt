@@ -15,10 +15,7 @@ data class Item(
     val name: String,
     val request: Request? = null,
     val items: List<Item>? = null,
-) {
-    fun isRequest() = request != null
-    fun isFolder() = items != null
-}
+)
 
 data class Request(
     val method: HttpMethod,

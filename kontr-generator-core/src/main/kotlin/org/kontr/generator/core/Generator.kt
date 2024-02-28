@@ -8,15 +8,16 @@ import org.kontr.dsl.RequestDsl
 /**
  * @author Domingo Gomez
  */
-class Generator {
+class Generator (val nestedObjects: Boolean = false, val addRunCollection: Boolean = true){
     private val variableSet = mutableSetOf<String>()
+    private var runCollectionIndex = 0
     fun generate(
         collection: GeneratorCollection,
         packageName: String,
-        fileName: String
+        fileName: String,
     ): FileSpec {
         val fileSpecBuilder = FileSpec.builder(packageName, fileName)
-        val collectionFunctionBuilder = TypeSpec.classBuilder(collection.name)
+        val collectionFunctionBuilder = TypeSpec.objectBuilder(collection.name)
 
         generateNestedItems(collection.items, collectionFunctionBuilder)
         fileSpecBuilder.addType(generateEnvClass())
@@ -35,19 +36,25 @@ class Generator {
 
         items.forEach { item ->
             if (item.items != null) {
-                val nestedClassBuilder = TypeSpec.classBuilder(item.name.toClassName())
-                generateNestedItems(item.items, nestedClassBuilder)
-                parentBuilder.addType(nestedClassBuilder.build())
+                if(nestedObjects){
+                    val nestedObjectBuilder = TypeSpec.objectBuilder(item.name.toClassName())
+                    generateNestedItems(item.items, nestedObjectBuilder)
+                    parentBuilder.addType(nestedObjectBuilder.build())
+                }else{
+                    generateNestedItems(item.items, parentBuilder)
+                }
             }
             if (item.request != null) {
                 parentBuilder.addFunction(getRequestBlock(item.name, item.request))
                 functionNames.addLast(item.name)
             }
         }
-        addCollectionWithRequests(functionNames, parentBuilder)
+        if(addRunCollection){
+            addRunCollectionMethod(functionNames, parentBuilder)
+        }
     }
 
-    private fun addCollectionWithRequests(
+    private fun addRunCollectionMethod(
         functionNames: List<String>,
         parentBuilder: TypeSpec.Builder
     ) {
@@ -58,7 +65,7 @@ class Generator {
             }
             block.unindent().add("}").build()
 
-            parentBuilder.addFunction(FunSpec.builder("runCollection").addCode(block.build()).build())
+            parentBuilder.addFunction(FunSpec.builder("runCollection${runCollectionIndex++}").addCode(block.build()).build())
         }
     }
 

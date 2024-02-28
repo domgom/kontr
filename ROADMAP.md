@@ -5,7 +5,7 @@ This is just a scratch file to move features around until a stable 1.0.0 version
 non String response bodies (using types for rq/rs bodies), (not filetype)
 
 ## NICE TO HAVE
-instead of nested classes, evaluate object with fun names made of path + name or another grouping way
+rethink generator / postman generator structure so config options can flow from the frontend easier
 print class and line of caller aliased functions so you can click on it with intellij
 add gradle examples project
 openapi to rq{}
@@ -26,6 +26,7 @@ follow redirects
 async client with coroutines
 
 ## DONE
+✅instead of nested classes, evaluate object with fun names made of path + name or another grouping way
 ✅investigate possible missing methods in postman collections
 ✅add postman v2.1 collection accepted format warning
 ✅LOGO!

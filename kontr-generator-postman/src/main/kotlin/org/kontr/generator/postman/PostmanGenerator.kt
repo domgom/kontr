@@ -23,6 +23,4 @@ class PostmanGenerator(
         val file = generator.generate(generatorCollection, packageName, fileName)
         file.writeTo(Paths.get(outputPath))
     }
-
-
 }
