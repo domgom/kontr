@@ -43,7 +43,7 @@ class CollectionGenerationTest {
                     "  public val token: String = \"\"\n" +
                     "}\n" +
                     "\n" +
-                    "public class WeatherAPI {\n" +
+                    "public object WeatherAPI {\n" +
                     "  public fun CollectionDsl.`Get Current Weather`(city: String = \"San Francisco\"): RequestDsl =\n" +
                     "      get(\"\${baseUrl}/current?city=\${city}\"){\n" +
                     "      onResponse{ healthy }\n" +
@@ -70,7 +70,7 @@ class CollectionGenerationTest {
                     "      onResponse{ healthy }\n" +
                     "  }\n" +
                     "\n" +
-                    "  public fun runCollection() {\n" +
+                    "  public fun runCollection0() {\n" +
                     "    val c = collection{\n" +
                     "      `Get Current Weather`()\n" +
                     "      `Get Forecast`()\n" +
