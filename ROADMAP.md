@@ -5,14 +5,13 @@ This is just a scratch file to move features around until a stable 1.0.0 version
 non String response bodies (using types for rq/rs bodies), (not filetype)
 
 ## NICE TO HAVE
+print class and line of caller aliased functions so you can click on it with intellij
 add gradle examples project
-add postman v2.1 collection accepted format warning
 openapi to rq{}
 web package name, filename, env variable name and other options
 web spinner on output pane
 html encoding of uri and query params (http client responsibility?)
 rework CLI to make it interactive and usable (like https://github.com/trietsch/spotify-cli)
-kotlin-script
 add summary? (only if stopOnAssertionError == false?)
 add System env var for secrets?
 better Env support to have several objects and change from one another with ease
@@ -24,9 +23,9 @@ more tests, reuse tests between different http clients
 proxy support
 follow redirects
 async client with coroutines
-context for extension functions (not really necessary as we don't extend classes that aren't ours so namespace pollution is negligible)
 
 ## DONE
+✅add postman v2.1 collection accepted format warning
 ✅LOGO!
 ✅proper github friendly readme
 ✅web disclaimer: no cookies, no saved data
@@ -58,3 +57,5 @@ context for extension functions (not really necessary as we don't extend classes
 ✅log function name ~~and arguments~~ instead of http request 
 ✅repeat/run block until
 ✅minimal README.md
+✅kotlin-script assessed, not much value from kontr's POV
+✅context for extension functions (not really necessary as we don't extend classes that aren't ours so namespace pollution is negligible)
