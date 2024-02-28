@@ -36,7 +36,7 @@ data class Request(
     val host: List<String> = mutableListOf(),
     val path: List<String> = mutableListOf(),
     /*val query: Map<String, String> = mutableMapOf(),*/
-    val header: List<Map<String, String>> = mutableListOf(),
+    val header: List<HeaderVariable> = mutableListOf(),
     val body: Body? = null,
 )
 
@@ -45,7 +45,7 @@ data class Url(
     val raw: String,
     val host: List<String> = emptyList(),
     val path: List<String> = emptyList(),
-    val query: List<Map<String, String>> = emptyList(),
+    val query: List<QueryVariable> = emptyList(),
     val variable: List<Variable>? = mutableListOf(),
 )
 
@@ -71,7 +71,21 @@ data class Script(
 @Serializable
 data class Variable(
     val key: String,
-    val value: String,
+    val value: String? = null,
     val type: String? = null,
     val description: String? = null,
+)
+
+@Serializable
+data class QueryVariable(
+    val key: String,
+    val value: String? = null,
+    val disabled: Boolean? = false,
+)
+
+@Serializable
+data class HeaderVariable(
+    val key: String,
+    val value: String? = null,
+    val disabled: Boolean? = false,
 )

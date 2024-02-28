@@ -6,7 +6,6 @@ import org.kontr.generator.core.IParser
 import java.io.File
 import java.io.InputStream
 import java.io.InputStreamReader
-import java.nio.file.Path
 
 /**
  * @author Domingo Gomez
@@ -39,7 +38,7 @@ class PostmanParser : IParser {
         val generatorCollection = GeneratorCollection(
             name = postmanCollection.info["name"]?.toClassName() ?: "collection",
             items = postmanCollection.item.map { mapItem(it) },
-            variables = postmanCollection.variable.associate { it.key to it.value }
+            variables = postmanCollection.variable.filter { it.value != null }.associate { it.key to it.value!! }
         )
 
         return generatorCollection
@@ -51,15 +50,16 @@ class PostmanParser : IParser {
         url = org.kontr.generator.core.Url(
             raw = request.url.raw,
             host = request.url.host.joinToString("/"),
-            variables = if (request.url.variable == null) mutableMapOf() else request.url.variable.associate { it.key to it.value },
+            variables = if (request.url.variable == null) mutableMapOf() else request.url.variable.filter { it.value != null }
+                .associate { it.key to it.value!! },
             path = request.path,
-            query = request.url.query.associate { it["key"]!! to it["value"]!! },
+            query = request.url.query.filter { it.value != null }.associate { it.key to it.value!! },
         ),
         body = request.body?.raw
     )
 
-    private fun mapHeaders(header: List<Map<String, String>>): Map<String, String> =
-        header.associate { it["key"]!! to it["value"]!! }
+    private fun mapHeaders(header: List<HeaderVariable>): Map<String, String> =
+        header.filter { it.value != null }.associate { it.key to it.value!! }
 
     private fun mapItems(item: List<Item>): List<org.kontr.generator.core.Item> = item.map {
         org.kontr.generator.core.Item(
