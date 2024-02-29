@@ -34,7 +34,7 @@ class CollectionGenerationTest {
                     "import org.example.generated.Env.baseUrl\n" +
                     "import org.example.generated.Env.token\n" +
                     "import org.kontr.dsl.CollectionDsl\n" +
-                    "import org.kontr.dsl.RequestDsl\n" +
+                    "import org.kontr.dsl.ResponseDsl\n" +
                     "import org.kontr.dsl.collection\n" +
                     "\n" +
                     "public data object Env {\n" +
@@ -44,28 +44,28 @@ class CollectionGenerationTest {
                     "}\n" +
                     "\n" +
                     "public object WeatherAPI {\n" +
-                    "  public fun CollectionDsl.`Get Current Weather`(city: String = \"San Francisco\"): RequestDsl =\n" +
+                    "  public fun CollectionDsl.`Get Current Weather`(city: String = \"San Francisco\"): ResponseDsl =\n" +
                     "      get(\"\${baseUrl}/current?city=\${city}\"){\n" +
                     "      onResponse{ healthy }\n" +
                     "  }\n" +
                     "\n" +
-                    "  public fun CollectionDsl.`Get Forecast`(daysAhead: Long = 5): RequestDsl =\n" +
+                    "  public fun CollectionDsl.`Get Forecast`(daysAhead: Long = 5): ResponseDsl =\n" +
                     "      get(\"\${baseUrl}/forecast?daysAhead=\${daysAhead}\"){\n" +
                     "      onResponse{ healthy }\n" +
                     "  }\n" +
                     "\n" +
-                    "  public fun CollectionDsl.`Get Historical Weather Data`(): RequestDsl = get(\"\${baseUrl}/history\"){\n" +
+                    "  public fun CollectionDsl.`Get Historical Weather Data`(): ResponseDsl = get(\"\${baseUrl}/history\"){\n" +
                     "      onResponse{ healthy }\n" +
                     "  }\n" +
                     "\n" +
                     "  public fun CollectionDsl.`Update Weather Information`(cityId: Long = 1_542, date: String =\n" +
-                    "      \"2024-07-01T00:00:00Z\"): RequestDsl = put(\"\${baseUrl}/weather/\${cityId}/\${date}\"){\n" +
+                    "      \"2024-07-01T00:00:00Z\"): ResponseDsl = put(\"\${baseUrl}/weather/\${cityId}/\${date}\"){\n" +
                     "      header(\"Authorization\", \"Bearer \${token}\")\n" +
                     "      body = \"\"\"{'temperature': 25, 'conditions': 'Partly Cloudy'}\"\"\"\n" +
                     "      onResponse{ healthy }\n" +
                     "  }\n" +
                     "\n" +
-                    "  public fun CollectionDsl.`Delete Weather Data`(): RequestDsl = delete(\"\${baseUrl}/weather\"){\n" +
+                    "  public fun CollectionDsl.`Delete Weather Data`(): ResponseDsl = delete(\"\${baseUrl}/weather\"){\n" +
                     "      header(\"Authorization\", \"Bearer \${token}\")\n" +
                     "      onResponse{ healthy }\n" +
                     "  }\n" +

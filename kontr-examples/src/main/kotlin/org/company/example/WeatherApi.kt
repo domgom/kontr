@@ -28,7 +28,10 @@ fun main() {
                 assertJpath("path", "/weather-api/current?city=San%20Francisco")
             }
         }
-        get("$BASE_URL/forecast?daysAhead=5") { onResponse { healthy } }
+
+        val forecast = get("$BASE_URL/forecast?daysAhead=5") { onResponse { healthy } }.body
+        println("Forecast Length: ${forecast.length}")
+
         put("$BASE_URL/weather/$cityId/$date") {
             headers {
                 Authorization("Bearer $token")
@@ -37,6 +40,8 @@ fun main() {
             onResponse { in2XX }
             body = """{'temperature': 25, 'conditions': 'Partly Cloudy'}"""
         }
+
+
     }
 }
 

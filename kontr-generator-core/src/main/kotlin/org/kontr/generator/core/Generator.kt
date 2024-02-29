@@ -4,6 +4,7 @@ import com.squareup.kotlinpoet.*
 import org.kontr.dsl.CollectionDsl
 import org.kontr.dsl.Configuration.defaultOnResponseAssertion
 import org.kontr.dsl.RequestDsl
+import org.kontr.dsl.ResponseDsl
 
 /**
  * @author Domingo Gomez
@@ -72,7 +73,7 @@ class Generator (val nestedObjects: Boolean = false, val addRunCollection: Boole
     private fun getRequestBlock(name: String, request: Request): FunSpec {
         val requestFunction = FunSpec.builder(name.allowedFunName())
             .receiver(CollectionDsl::class.java)
-            .returns(RequestDsl::class)
+            .returns(ResponseDsl::class)
             .addCode(
                 CodeBlock.of(
                     "return ${request.method.name.lowercase()}(\"${replaceAllVars(request)}\")"

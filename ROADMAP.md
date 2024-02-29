@@ -2,12 +2,10 @@
 This is just a scratch file to move features around until a stable 1.0.0 version
 
 ## MUST HAVE
-non String response bodies (using types for rq/rs bodies), (not filetype)
-
 ## NICE TO HAVE
 rethink generator / postman generator structure so config options can flow from the frontend easier
-add gradle examples project
 openapi to rq{}
+add gradle examples project
 web package name, filename, env variable name and other options
 web spinner on output pane
 html encoding of uri and query params (http client responsibility?)
@@ -26,6 +24,9 @@ async client with coroutines
 if request.body.options.language.json and not content-type, default to application/json? probably unnecessary
 
 ## DONE
+✅non String response bodies (using types for rq/rs bodies), (not filetype): 
+     changed request to return ResponseDsl that is parseable if kotlinx deserialisation is in the classpath, for convenience.  
+     Other parsers like Gson or ObjectMapper can be implemented with extension functions ('mapped()'?) similar to the parsed() method.
 ✅print class and line of caller aliased functions so you can click on it with intellij
 ✅instead of nested classes, evaluate object with fun names made of path + name or another grouping way
 ✅investigate possible missing methods in postman collections

@@ -24,10 +24,11 @@ open class Collection {
         httpMethod: HttpMethod,
         builder: RequestDsl.() -> Unit,
         shouldFailOnBody: Boolean = false,
-    ): RequestDsl = RequestDsl().apply { url = uri; method = httpMethod }
-        .apply(builder)
-        .also { this@Collection.failOnBody(shouldFailOnBody, it.body) }
-        .also { processRequest(it) }
+    ): ResponseDsl =
+        processRequest(
+            RequestDsl().apply { url = uri; method = httpMethod }
+                .apply(builder)
+                .also { this@Collection.failOnBody(shouldFailOnBody, it.body) })
 
 
     fun List<RequestDsl>.toRqs() = forEach { processRequest(it) }
@@ -37,10 +38,10 @@ open class Collection {
     fun rqs(function: () -> List<RequestDsl>) = function().forEach { processRequest(it) }
 
     @DslColour1
-    fun rq(url: String, method: HttpMethod, builder: RequestDsl.() -> Unit): RequestDsl =
+    fun rq(url: String, method: HttpMethod, builder: RequestDsl.() -> Unit): ResponseDsl =
         buildRequestInternal(url, method, builder)
 
-    private fun processRequest(rq: RequestDsl) {
+    private fun processRequest(rq: RequestDsl): ResponseDsl {
         rq.evalPreScript()
         requests.add(rq)
         val (callingMethodName, classLine) = getCallingMethod()
@@ -56,14 +57,15 @@ open class Collection {
                 throw e
             }
         }
+        return rs
     }
 
     @DslColour2
-    fun get(url: String, builder: RequestDsl.() -> Unit): RequestDsl =
+    fun get(url: String, builder: RequestDsl.() -> Unit): ResponseDsl =
         buildRequestInternal(url, GET, builder, true)
 
     @DslColour4
-    fun post(url: String, builder: RequestDsl.() -> Unit): RequestDsl =
+    fun post(url: String, builder: RequestDsl.() -> Unit): ResponseDsl =
         buildRequestInternal(url, POST, builder)
 
     private fun getCallingMethod(): Pair<String?, String?> {
@@ -80,31 +82,31 @@ open class Collection {
     }
 
     @DslColour4
-    fun put(url: String, builder: RequestDsl.() -> Unit): RequestDsl =
+    fun put(url: String, builder: RequestDsl.() -> Unit): ResponseDsl =
         buildRequestInternal(url, PUT, builder)
 
     @DslColour4
-    fun patch(url: String, builder: RequestDsl.() -> Unit): RequestDsl =
+    fun patch(url: String, builder: RequestDsl.() -> Unit): ResponseDsl =
         buildRequestInternal(url, PATCH, builder)
 
     @DslColour4
-    fun delete(url: String, builder: RequestDsl.() -> Unit): RequestDsl =
+    fun delete(url: String, builder: RequestDsl.() -> Unit): ResponseDsl =
         buildRequestInternal(url, DELETE, builder, true)
 
     @DslColour1
-    fun options(url: String, builder: RequestDsl.() -> Unit): RequestDsl =
+    fun options(url: String, builder: RequestDsl.() -> Unit): ResponseDsl =
         buildRequestInternal(url, OPTIONS, builder, true)
 
     @DslColour1
-    fun head(url: String, builder: RequestDsl.() -> Unit): RequestDsl =
+    fun head(url: String, builder: RequestDsl.() -> Unit): ResponseDsl =
         buildRequestInternal(url, HEAD, builder, true)
 
     @DslColour1
-    fun trace(url: String, builder: RequestDsl.() -> Unit): RequestDsl =
+    fun trace(url: String, builder: RequestDsl.() -> Unit): ResponseDsl =
         buildRequestInternal(url, TRACE, builder, true)
 
     @DslColour1
-    fun query(url: String, builder: RequestDsl.() -> Unit): RequestDsl =
+    fun query(url: String, builder: RequestDsl.() -> Unit): ResponseDsl =
         buildRequestInternal(url, QUERY, builder, true)
 
     private fun failOnBody(shouldFailOnBody: Boolean, body: String?): Unit? {
@@ -114,14 +116,14 @@ open class Collection {
     }
 
     @DslColour3
-    fun repeat(times: Int, requestBlock: () -> RequestDsl) {
+    fun repeat(times: Int, requestBlock: () -> ResponseDsl) {
         for (i in 0..times) {
             requestBlock()
         }
     }
 
     @DslColour3
-    fun until(condition: ResponseDsl.() -> Boolean, requestBlock: () -> RequestDsl) {
+    fun until(condition: ResponseDsl.() -> Boolean, requestBlock: () -> ResponseDsl) {
         do {
             requestBlock()
         } while (!condition(responses.last() as ResponseDsl))
@@ -132,7 +134,7 @@ open class Collection {
     fun until(
         maxTimes: Int,
         condition: ResponseDsl.() -> Boolean,
-        requestBlock: () -> RequestDsl
+        requestBlock: () -> ResponseDsl
     ) {
         var i = 1
         do {
