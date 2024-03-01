@@ -54,11 +54,23 @@ fun Request.printRequest(requestAlias: String?, classLine: String?) =
                 requestAlias,
                 classLine
             )
-        }${rightArrow()} ${alias ?: "$method $url"} ${body?.singleLineBody() ?: ""}"
+        }${rightArrow()} ${alias ?: "$method $url"} ${requestBody()}"
     )
 
 fun Response.printResponse(assertResult: Boolean) =
-    flush("${prefRS()}${leftArrow()} ${statusCode()} ${assertResult(assertResult)} ${body.singleLineBody()}")
+    flush("${prefRS()}${leftArrow()} ${statusCode()} ${assertResult(assertResult)} ${responseBody()}")
+
+fun Request.requestBody(): String =
+    if (body == null) "" else {
+        if (hasJsonBody()) body!!.singleLineBody() else body!!.replace("\n", "")
+    }
+
+fun Response.responseBody(): String = if (hasJsonBody()) body.singleLineBody() else body.replace("\n", "")
+fun Response.hasJsonBody(): Boolean =
+    "application/json" in (headers["Content-Type"] ?: headers["content-type"] ?: emptyList())
+
+fun Request.hasJsonBody(): Boolean =
+    "application/json" in (headers["Content-Type"] ?: headers["content-type"] ?: emptyList())
 
 private fun flush(value: String) = with(value) { if (useLogger) logger.info(this) else println(this) }
 private fun prefRQ(): String = if (prefixRQRS) "RQ " else " "
@@ -108,15 +120,29 @@ fun String.singleLineBody(maxLength: Int = maxResponseBodyLength): String {
     var key = true
     var currentLength = 0
 
-    return (if (useColours) L_GRAY else "") + asSequence()
-        .takeWhile { char ->
-            currentLength++ < maxLength || (char == '"' && insideQuotes.not())
-        }
+    return if (!useColours) {
+        asSequence()
+            .takeWhile { _ -> currentLength++ < maxLength }
+            .map { char ->
+                when {
+                    char.isWhitespace() && !insideQuotes -> ""
+                    char == '"' -> {
+                        insideQuotes = !insideQuotes
+                        char
+                    }
+
+                    else -> char
+                }
+            }
+            .joinToString("")
+
+    } else asSequence()
+        .takeWhile { _ -> currentLength++ < maxLength }
         .map { char ->
             when {
                 char in arrayOf('{', '}', '[', ']') && !insideQuotes -> PURPLE + char + END
                 char.isWhitespace() && !insideQuotes -> ""
-                char in arrayOf(':', ',') -> {
+                char in listOf(':', ',') -> {
                     if (!insideQuotes) {
                         key = !key
                     }
@@ -124,16 +150,15 @@ fun String.singleLineBody(maxLength: Int = maxResponseBodyLength): String {
                 }
 
                 char == '"' -> {
-                    val result = if (useColours) {
-                        when {
-                            //keys
-                            !insideQuotes && key -> END + BOLD + L_GRAY + '"'
-                            insideQuotes && key -> L_GRAY + '"'
-                            //values
-                            !insideQuotes && !key -> END + ITALIC + '"'
-                            else -> END + '"'
-                        }
-                    } else '"'
+                    val result = when {
+                        //keys
+                        !insideQuotes && key -> END + BOLD + L_GRAY + '"'
+                        insideQuotes && key -> L_GRAY + '"'
+                        //values
+                        !insideQuotes && !key -> END + ITALIC + '"'
+                        else -> END + '"'
+                    }
+
                     insideQuotes = !insideQuotes
                     result
                 }
@@ -141,6 +166,5 @@ fun String.singleLineBody(maxLength: Int = maxResponseBodyLength): String {
                 else -> char
             }
         }
-        .joinToString("") + (if (useColours) END else "")
-
+        .joinToString("") + END
 }
