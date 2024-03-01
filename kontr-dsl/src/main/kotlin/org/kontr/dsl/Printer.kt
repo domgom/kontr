@@ -4,10 +4,8 @@ import org.kontr.dsl.Colours.BLUE
 import org.kontr.dsl.Colours.END
 import org.kontr.dsl.Colours.GREEN
 import org.kontr.dsl.Colours.L_GRAY
-import org.kontr.dsl.Colours.L_MAGENTA
 import org.kontr.dsl.Colours.PURPLE
 import org.kontr.dsl.Colours.RED
-import org.kontr.dsl.Colours.WHITE
 import org.kontr.dsl.Colours.YELLOW
 import org.kontr.dsl.Configuration.maxRequestAliasLength
 import org.kontr.dsl.Configuration.maxResponseBodyLength
@@ -116,7 +114,7 @@ fun String.singleLineBody(maxLength: Int = maxResponseBodyLength): String {
         }
         .map { char ->
             when {
-                char in arrayOf('{', '}','[',']') && !insideQuotes -> PURPLE + char + END
+                char in arrayOf('{', '}', '[', ']') && !insideQuotes -> PURPLE + char + END
                 char.isWhitespace() && !insideQuotes -> ""
                 char in arrayOf(':', ',') -> {
                     if (!insideQuotes) {
@@ -129,14 +127,13 @@ fun String.singleLineBody(maxLength: Int = maxResponseBodyLength): String {
                     val result = if (useColours) {
                         when {
                             //keys
-                            !insideQuotes && key -> END + BOLD + L_GRAY  + '"'
+                            !insideQuotes && key -> END + BOLD + L_GRAY + '"'
                             insideQuotes && key -> L_GRAY + '"'
                             //values
-                            !insideQuotes && !key -> END +ITALIC + '"'
+                            !insideQuotes && !key -> END + ITALIC + '"'
                             else -> END + '"'
                         }
                     } else '"'
-
                     insideQuotes = !insideQuotes
                     result
                 }
