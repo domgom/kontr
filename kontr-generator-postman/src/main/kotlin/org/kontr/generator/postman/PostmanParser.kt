@@ -23,7 +23,6 @@ class PostmanParser : IParser {
     }
 
     private fun parsePostmanCollection(collection: InputStream): PostmanCollection {
-        val json = Json { ignoreUnknownKeys = true }
         val postmanCollection = json.decodeFromString<PostmanCollection>(InputStreamReader(collection).readText())
         return PostmanCollection(postmanCollection.info, postmanCollection.item)
     }
