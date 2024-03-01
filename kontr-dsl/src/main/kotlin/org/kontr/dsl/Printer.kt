@@ -3,13 +3,19 @@ package org.kontr.dsl
 import org.kontr.dsl.Colours.BLUE
 import org.kontr.dsl.Colours.END
 import org.kontr.dsl.Colours.GREEN
+import org.kontr.dsl.Colours.L_GRAY
+import org.kontr.dsl.Colours.L_MAGENTA
+import org.kontr.dsl.Colours.PURPLE
 import org.kontr.dsl.Colours.RED
+import org.kontr.dsl.Colours.WHITE
 import org.kontr.dsl.Colours.YELLOW
 import org.kontr.dsl.Configuration.maxRequestAliasLength
+import org.kontr.dsl.Configuration.maxResponseBodyLength
 import org.kontr.dsl.Configuration.prefixRQRS
 import org.kontr.dsl.Configuration.printCallingClassAndLine
 import org.kontr.dsl.Configuration.useColours
 import org.kontr.dsl.Configuration.useLogger
+import org.kontr.dsl.Styles.BOLD
 import org.kontr.dsl.Styles.ITALIC
 import org.kontr.dsl.Styles.ITALIC_END
 import org.slf4j.Logger
@@ -19,16 +25,22 @@ import org.slf4j.LoggerFactory
 /**
  * @author Domingo Gomez
  */
-object Colours {
+object Colours { // https://dev.to/ifenna__/adding-colors-to-bash-scripts-48g4
+    const val WHITE = "\u001b[97m"
     const val RED = "\u001b[31m"
     const val BLUE = "\u001b[94m"
     const val YELLOW = "\u001b[93m"
     const val GREEN = "\u001b[32m"
+    const val PURPLE = "\u001b[35m"
     const val END = "\u001b[0m"
+    const val GRAY = "\u001B[90m"
+    const val L_GRAY = "\u001B[37m"
+    const val L_MAGENTA = "\u001B[95m"
     const val BLACK = "\u001B[30m"
 }
 
 object Styles {
+    const val BOLD = "\u001B[1m"
     const val ITALIC = "\u001B[3m"
     const val ITALIC_END = "\u001B[0m"
 }
@@ -44,12 +56,11 @@ fun Request.printRequest(requestAlias: String?, classLine: String?) =
                 requestAlias,
                 classLine
             )
-        }${rightArrow()} ${alias ?: "$method $url"}${body?.let { " $it" } ?: ""}".take(
-            160
-        ))
+        }${rightArrow()} ${alias ?: "$method $url"} ${body?.singleLineBody() ?: ""}"
+    )
 
 fun Response.printResponse(assertResult: Boolean) =
-    flush("${prefRS()}${leftArrow()} ${statusCode()} ${assertResult(assertResult)} ${oneLineBody()}")
+    flush("${prefRS()}${leftArrow()} ${statusCode()} ${assertResult(assertResult)} ${body.singleLineBody()}")
 
 private fun flush(value: String) = with(value) { if (useLogger) logger.info(this) else println(this) }
 private fun prefRQ(): String = if (prefixRQRS) "RQ " else " "
@@ -59,9 +70,9 @@ private fun prefRS(): String = if (prefixRQRS) "RS " else " "
 private fun requestAlias(alias: String?, classLine: String?): String = alias?.let {
     if (useColours) {
         if (it.length + (classLine?.length ?: 0) + 3 <= maxRequestAliasLength) {
-            "$ITALIC$BLUE${(it + "()" + END + ITALIC_END + classLine(classLine)).padEnd(maxRequestAliasLength +10)} "
+            "$ITALIC$BLUE${(it + "()" + END + ITALIC_END + classLine(classLine)).padEnd(maxRequestAliasLength + 10)} "
         } else {
-            "$ITALIC$BLUE${(it.take(maxRequestAliasLength) + "()").padEnd(maxRequestAliasLength+2)}$END$ITALIC_END "
+            "$ITALIC$BLUE${(it.take(maxRequestAliasLength) + "()").padEnd(maxRequestAliasLength + 2)}$END$ITALIC_END "
         }
     } else "$it() "
 }
@@ -94,9 +105,45 @@ private fun Response.statusCode() = if (useColours) "[${
 private fun rightArrow() = if (useColours) "$BLUE→$END" else "→"
 private fun leftArrow() = if (useColours) "$BLUE←$END" else "←"
 
+fun String.singleLineBody(maxLength: Int = maxResponseBodyLength): String {
+    var insideQuotes = false
+    var key = true
+    var currentLength = 0
 
-private fun Response.oneLineBody() = if (body.lines().size > 1) {
-    body.replace(" ", "").lines().joinToString(" ")
-} else {
-    body
+    return (if (useColours) L_GRAY else "") + asSequence()
+        .takeWhile { char ->
+            currentLength++ < maxLength || (char == '"' && insideQuotes.not())
+        }
+        .map { char ->
+            when {
+                char in arrayOf('{', '}','[',']') && !insideQuotes -> PURPLE + char + END
+                char.isWhitespace() && !insideQuotes -> ""
+                char in arrayOf(':', ',') -> {
+                    if (!insideQuotes) {
+                        key = !key
+                    }
+                    "$PURPLE$char$END$ITALIC"
+                }
+
+                char == '"' -> {
+                    val result = if (useColours) {
+                        when {
+                            //keys
+                            !insideQuotes && key -> END + BOLD + L_GRAY  + '"'
+                            insideQuotes && key -> L_GRAY + '"'
+                            //values
+                            !insideQuotes && !key -> END +ITALIC + '"'
+                            else -> END + '"'
+                        }
+                    } else '"'
+
+                    insideQuotes = !insideQuotes
+                    result
+                }
+
+                else -> char
+            }
+        }
+        .joinToString("") + (if (useColours) END else "")
+
 }
