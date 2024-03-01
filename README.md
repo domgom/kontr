@@ -118,31 +118,30 @@ public data object Env {
     public val password: String = ""
 }
 
-public class Auth {
-    public class Api {
-        public fun CollectionDsl.login(): RequestDsl = post("${baseUrl}/api/login"){
-            header("Content-Type", "application/json")
-            body = """{"email":"${email}","password":"${password}"}"""
-        }
+public object Auth {
 
-        public fun CollectionDsl.`create user`(): RequestDsl = post("${baseUrl}/api/user"){
-            header("Content-Type", "application/json")
-            header("Accept", "*/*")
-            body = """
-        |{
-        |  "foos": [
-        |    {
-        |      "foo": "BAR"  }
-        |  ]
-        |}
-        """.trimMargin()
-        }
+    public fun CollectionDsl.login( email: String, password: String): RequestDsl = post("${baseUrl}/api/login"){
+        header("Content-Type", "application/json")
+        body = """{"email":"${email}","password":"${password}"}"""
+    }
 
-        public fun runCollection() {
-            val c = collection{
-                login()
-                `create user`()
-            }
+    public fun CollectionDsl.`create user`(): RequestDsl = post("${baseUrl}/api/user"){
+        header("Content-Type", "application/json")
+        header("Accept", "*/*")
+        body = """
+    |{    
+    |    {
+    |         "email": "test@gmail.com",
+    |         "password": "Be6hoptsjOgioHBs874aCpdamZP1ZQ",  
+    |    }
+    |}
+    """.trimMargin()
+    }
+
+    public fun runCollection1() {
+        val c = collection{
+            login()
+            `create user`()
         }
     }
 }
@@ -154,7 +153,6 @@ We recommend Intellij as the IDE for Kontr (and really any Kotlin project). We g
 
 ![Screenshot of IntelliJ editor showing Kontr's DSL colouring](.img/weather-api-syntax-hightlight.png)
 
-*Roadmap includes the future evaluation of Kotlin script files (.kts) to incorporate Kontr to your project even easier.
 
 ## Architecture
 Kontr has a modular architecture so new extensions like other http clients or openapi generator can be included in the future.
@@ -164,8 +162,7 @@ Kontr has a modular architecture so new extensions like other http clients or op
 
 
 ## Known restrictions
-- Only available request/response `body` type is String, no object serialisation/de-serialisation is available.
-- Needs to be built locally, no mvn central publishing yet.
+- Object serialisation/deserialisation is available as convenience functions `RequestDsl.toJson()`/`ResponseDsl.fromJson<T>()` **if you include kotlinx serialisation dependency**.
 - Doesn't work with proxies.
 - Open api format is not yet integrated, for the time being you can directly import your openapi collection to postman and export the postman collection.
 

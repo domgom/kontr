@@ -24,8 +24,8 @@ open class Response(
      * @throws SerializationException in case of any decoding-specific error
      * @throws IllegalArgumentException if the decoded input is not a valid instance of [T]
      */
-    @DslColour1
-    inline fun <reified T : Any> parsed(): T = Json.decodeFromString(body)
+    @DslColour3
+    inline fun <reified T : Any> fromJson(): T = Json.decodeFromString(body)
 
     @DslColour2
     fun status(status: Int) = assertThat(statusCode).isEqualTo(status)

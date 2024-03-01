@@ -1,5 +1,4 @@
 # ROADMAP
-This is just a scratch file to move features around until a stable 1.0.0 version
 
 ## MUST HAVE
 ## NICE TO HAVE
