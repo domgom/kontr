@@ -164,7 +164,7 @@ Kontr has a modular architecture so new extensions like other http clients or op
 ## Known restrictions
 - Object serialisation/deserialisation is available as convenience functions `RequestDsl.toJson()`/`ResponseDsl.fromJson<T>()` **if you include kotlinx serialisation dependency**.
 - Doesn't work with proxies.
-- Open api format is not yet integrated, for the time being you can directly import your openapi collection to postman and export the postman collection.
+- Open api format is not yet integrated, for the time being you can directly import your openapi collection to Postman and export the Postman collection.
 
 ## Future updates
 Roadmap: work in progress

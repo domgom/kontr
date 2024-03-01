@@ -14,7 +14,7 @@ class CollectionGenerationTest {
         val fileName = "Collection"
         val collectionPathName = javaClass.getResource("weather.api.json")?.file!!
         val packageName = "org.example.generated"
-        val outputPathRootName = "target/generated-sources/postman"
+        val outputPathRootName = "target/generated-test-sources/postman"
         val outputFile =
             File(outputPathRootName + separator + packageName.replace(".", separator) + separator + fileName + ".kt")
 

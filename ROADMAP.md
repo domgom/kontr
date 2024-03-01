@@ -5,6 +5,8 @@
 rethink generator / postman generator structure so config options can flow from the frontend easier
 openapi to rq{}
 add gradle examples project
+
+fix log request and body responses (trims spaces inside json values) and change colours
 web package name, filename, env variable name and other options
 web spinner on output pane
 html encoding of uri and query params (http client responsibility?)
@@ -23,6 +25,7 @@ async client with coroutines
 if request.body.options.language.json and not content-type, default to application/json? probably unnecessary
 
 ## DONE
+✅removed generated sources files that are attached to the jar (like Env!) -> moved to generated-test-sources
 ✅non String response bodies (using types for rq/rs bodies), (not filetype): 
      changed request to return ResponseDsl that is parseable if kotlinx deserialisation is in the classpath, for convenience.  
      Other parsers like Gson or ObjectMapper can be implemented with extension functions ('mapped()'?) similar to the parsed() method.
