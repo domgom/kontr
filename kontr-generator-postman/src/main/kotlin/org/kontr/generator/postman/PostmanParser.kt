@@ -13,9 +13,6 @@ import java.io.InputStreamReader
 class PostmanParser : IParser {
     private val json = Json { ignoreUnknownKeys = true }
 
-    fun parseGeneratorCollection(inputPath: String): GeneratorCollection =
-        parseGeneratorCollection(File(inputPath).inputStream())
-
     override fun parseGeneratorCollection(collection: InputStream): GeneratorCollection {
         val postmanCollection = parsePostmanCollection(collection)
         val generatorCollection = mapCollection(postmanCollection)

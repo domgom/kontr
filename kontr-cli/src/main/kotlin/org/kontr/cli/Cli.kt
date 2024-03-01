@@ -9,12 +9,14 @@ import kotlinx.cli.ArgParser
 import kotlinx.cli.ArgType
 import kotlinx.cli.ExperimentalCli
 import kotlinx.cli.Subcommand
-import org.kontr.generator.postman.PostmanGenerator
+import org.kontr.generator.core.GeneratorFacade
+import org.kontr.generator.postman.PostmanParser
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
 
 private const val programName = "kontr-cli"
+private val generatorFacade = GeneratorFacade(parser = PostmanParser())
 
 class Cli {
     companion object {
@@ -113,7 +115,7 @@ class Cli {
 
         private fun doGeneratorPostman(generatorPostmanSubcommand: GeneratorPostmanSubcommand) {
             with(generatorPostmanSubcommand) {
-                PostmanGenerator().generateFromFileToFile(
+                generatorFacade.generateFromFileToFile(
                     inputPath = inputPath,
                     outputPath = outputDir,
                     packageName = packageName,

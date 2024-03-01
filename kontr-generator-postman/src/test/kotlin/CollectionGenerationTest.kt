@@ -1,6 +1,7 @@
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
-import org.kontr.generator.postman.PostmanGenerator
+import org.kontr.generator.core.GeneratorFacade
+import org.kontr.generator.postman.PostmanParser
 import java.io.File
 import java.io.File.separator
 
@@ -8,7 +9,7 @@ import java.io.File.separator
  * @author Domingo Gomez
  */
 class CollectionGenerationTest {
-    private val postmanGenerator: PostmanGenerator = PostmanGenerator()
+    private val generatorFacade: GeneratorFacade = GeneratorFacade(parser = PostmanParser())
     @Test
     fun `test generate weather api collection`() {
         val fileName = "Collection"
@@ -22,7 +23,7 @@ class CollectionGenerationTest {
             File(outputPathRootName).deleteRecursively()
         }
 
-        postmanGenerator.generateFromFileToFile(collectionPathName, outputPathRootName, packageName, fileName)
+        generatorFacade.generateFromFileToFile(collectionPathName, outputPathRootName, packageName, fileName)
         assertThat(outputFile.exists()).isTrue()
         outputFile.inputStream().use { it.copyTo(System.out) }
         // TODO improve to have good assertions but for now this is better than nothing to know if output changes

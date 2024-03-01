@@ -7,6 +7,7 @@ import org.kontr.dsl.RequestDsl
 import org.kontr.dsl.ResponseDsl
 
 /**
+ * This class is stateful, so instantiate it everytime to avoid cross-generation issues
  * @author Domingo Gomez
  */
 class Generator (val nestedObjects: Boolean = false, val addRunCollection: Boolean = true){
