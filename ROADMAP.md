@@ -6,6 +6,7 @@ openapi to rq{}
 add gradle examples project
 web package name, filename, env variable name and other options
 web spinner on output pane
+themes for printer, separate colorprinter and consoleprinter
 html encoding of uri and query params (http client responsibility?)
 rework CLI to make it interactive and usable (like https://github.com/trietsch/spotify-cli)
 add summary? (only if stopOnAssertionError == false?)
