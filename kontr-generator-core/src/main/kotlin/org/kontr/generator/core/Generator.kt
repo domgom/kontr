@@ -3,14 +3,20 @@ package org.kontr.generator.core
 import com.squareup.kotlinpoet.*
 import org.kontr.dsl.CollectionDsl
 import org.kontr.dsl.Configuration.defaultOnResponseAssertion
-import org.kontr.dsl.RequestDsl
 import org.kontr.dsl.ResponseDsl
+
+data class GenerationOptions(
+    val nestedObjects: Boolean = false,
+    val addRunCollection: Boolean = true,
+    val envName: String = "Env",
+    val addEnv: Boolean = true,
+)
 
 /**
  * This class is stateful, so instantiate it everytime to avoid cross-generation issues
  * @author Domingo Gomez
  */
-class Generator (val nestedObjects: Boolean = false, val addRunCollection: Boolean = true){
+class Generator(private val options : GenerationOptions = GenerationOptions()) {
     private val variableSet = mutableSetOf<String>()
     private var runCollectionIndex = 0
     fun generate(
@@ -38,11 +44,11 @@ class Generator (val nestedObjects: Boolean = false, val addRunCollection: Boole
 
         items.forEach { item ->
             if (item.items != null) {
-                if(nestedObjects){
+                if (options.nestedObjects) {
                     val nestedObjectBuilder = TypeSpec.objectBuilder(item.name.toClassName())
                     generateNestedItems(item.items, nestedObjectBuilder)
                     parentBuilder.addType(nestedObjectBuilder.build())
-                }else{
+                } else {
                     generateNestedItems(item.items, parentBuilder)
                 }
             }
@@ -51,7 +57,7 @@ class Generator (val nestedObjects: Boolean = false, val addRunCollection: Boole
                 functionNames.addLast(item.name)
             }
         }
-        if(addRunCollection){
+        if (options.addRunCollection) {
             addRunCollectionMethod(functionNames, parentBuilder)
         }
     }
@@ -67,7 +73,9 @@ class Generator (val nestedObjects: Boolean = false, val addRunCollection: Boole
             }
             block.unindent().add("}").build()
 
-            parentBuilder.addFunction(FunSpec.builder("runCollection${runCollectionIndex++}").addCode(block.build()).build())
+            parentBuilder.addFunction(
+                FunSpec.builder("runCollection${runCollectionIndex++}").addCode(block.build()).build()
+            )
         }
     }
 
