@@ -1,0 +1,1 @@
+This project is deprecated and would be rewritten in the near future
