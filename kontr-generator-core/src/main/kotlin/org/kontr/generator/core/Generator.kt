@@ -10,13 +10,15 @@ data class GenerationOptions(
     val addRunCollection: Boolean = true,
     val envName: String = "Env",
     val addEnv: Boolean = true,
+    var packageName: String = "org.example.company",
+    var fileName: String = "Collection",
 )
 
 /**
  * This class is stateful, so instantiate it everytime to avoid cross-generation issues
  * @author Domingo Gomez
  */
-class Generator(private val options : GenerationOptions = GenerationOptions()) {
+class Generator(private val options: GenerationOptions = GenerationOptions()) {
     private val variableSet = mutableSetOf<String>()
     private var runCollectionIndex = 0
     fun generate(
