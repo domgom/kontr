@@ -14,20 +14,14 @@ data class GenerationOptions(
     val fileName: String = "Collection",
 ) {
     constructor(formData: Map<String, String>) : this(
-        nestedObjects = readWithDefault(formData, "nestedObjects", false),
-        addRunCollection = readWithDefault(formData, "addRunCollection", true),
-        envName = readWithDefault(formData, "envName", "Env"),
-        addEnv = readWithDefault(formData, "addEnv", true),
-        packageName = readWithDefault(formData, "packageName", "org.example.company"),
-        fileName = readWithDefault(formData, "fileName", "Collection"),
+        nestedObjects = formData["nestedObjects"] == "on",
+        addRunCollection = formData["addRunCollection"] == "on",
+        envName = formData["envName"] ?: "Env",
+        addEnv = formData["addEnv"] == "on",
+        packageName = formData["packageName"] ?: "org.example.company",
+        fileName = formData["fileName"] ?: "Collection",
     )
 }
-
-private fun readWithDefault(formData: Map<String, String>, key: String, default: Boolean): Boolean =
-    formData[key]?.let { it == "on" } ?: default
-
-private fun readWithDefault(formData: Map<String, String>, key: String, default: String): String =
-    formData[key] ?: default
 
 /**
  * This class is stateful, so instantiate it everytime to avoid cross-generation issues
@@ -43,11 +37,13 @@ class Generator(private val options: GenerationOptions = GenerationOptions()) {
         val collectionFunctionBuilder = TypeSpec.objectBuilder(collection.name)
 
         generateNestedItems(collection.items, collectionFunctionBuilder)
-        fileSpecBuilder.addType(generateEnvClass())
         //imports added after generateNestedItems() populates variableSet
         fileSpecBuilder.addImport("org.kontr.dsl", "collection")
-        variableSet.forEach { variable ->
-            fileSpecBuilder.addImport("${options.packageName}.Env", variable)
+        if (options.addEnv) {
+            fileSpecBuilder.addType(generateEnvClass())
+            variableSet.forEach { variable ->
+                fileSpecBuilder.addImport("${options.packageName}.${options.envName}", variable)
+            }
         }
 
         fileSpecBuilder.addType(collectionFunctionBuilder.build())
@@ -125,7 +121,7 @@ class Generator(private val options: GenerationOptions = GenerationOptions()) {
         request.body?.let {
             requestFunction.addStatement("body = %P", replaceEnvVariables(it))
         }
-        requestFunction.addStatement("${generateOnResponse()}")
+        requestFunction.addStatement(generateOnResponse())
         requestFunction.addCode(CodeBlock.of("⇤⇤}"))
 
         return requestFunction.build()
@@ -156,7 +152,7 @@ class Generator(private val options: GenerationOptions = GenerationOptions()) {
                 .initializer("%S", "")
                 .build()
         }
-        val envClass = TypeSpec.objectBuilder("Env")
+        val envClass = TypeSpec.objectBuilder(options.envName)
             .addModifiers(KModifier.DATA)
             .addProperties(properties)
             .build()
