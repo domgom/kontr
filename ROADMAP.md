@@ -4,7 +4,6 @@
 ## NICE TO HAVE
 openapi to rq{}
 add gradle examples project
-web package name, filename, env variable name and other options
 web spinner on output pane
 themes for printer, separate colorprinter and consoleprinter
 html encoding of uri and query params (http client responsibility?)
@@ -24,6 +23,7 @@ if request.body.options.language.json and not content-type, default to applicati
 favicon
 
 ## DONE
+✅web package name, filename, env variable name and other options
 ✅fix log request and body responses (trims spaces inside json values) and change colours
 ✅rethink generator / postman generator structure so config options can flow from the frontend easier
 ✅removed generated sources files that are attached to the jar (like Env!) -> moved to generated-test-sources
