@@ -12,7 +12,22 @@ data class GenerationOptions(
     val addEnv: Boolean = true,
     val packageName: String = "org.example.company",
     val fileName: String = "Collection",
-)
+) {
+    constructor(formData: Map<String, String>) : this(
+        nestedObjects = readWithDefault(formData, "nestedObjects", false),
+        addRunCollection = readWithDefault(formData, "addRunCollection", true),
+        envName = readWithDefault(formData, "envName", "Env"),
+        addEnv = readWithDefault(formData, "addEnv", true),
+        packageName = readWithDefault(formData, "packageName", "org.example.company"),
+        fileName = readWithDefault(formData, "fileName", "Collection"),
+    )
+}
+
+private fun readWithDefault(formData: Map<String, String>, key: String, default: Boolean): Boolean =
+    formData[key]?.let { it == "on" } ?: default
+
+private fun readWithDefault(formData: Map<String, String>, key: String, default: String): String =
+    formData[key] ?: default
 
 /**
  * This class is stateful, so instantiate it everytime to avoid cross-generation issues

@@ -95,12 +95,24 @@
                     <label for="file" class="bg-blue-800 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded cursor-pointer mr-3">Select
                         File</label>
                     <form id="form" hx-encoding="multipart/form-data" hx-post="/upload" hx-target="#outputText" hx-swap="innerHTML">
-                        <input type="checkbox" name="nestedObjects" checked=""/>
-                        <input type="checkbox" name="addRunCollection" checked="checked"/>
-                        <input type="checkbox" name="addEnv" checked="checked"/>
-                        <input type="text" name="envName" value="Env"/>
-                        <input type="text" name="packageName" value="org.example.company"/>
-                        <input type="text" name="fileName" value="Collection"/>
+                        <label for="nestedObjects">Nested Objects</label>
+                        <input id="nestedObjects" name="nestedObjects" type="checkbox"/>
+
+                        <label for="addRunCollection">Add runCollection()</label>
+                        <input id="addRunCollection" name="addRunCollection" type="checkbox" checked="checked"/>
+
+                        <label for="addEnv">Add Env object</label>
+                        <input id="addEnv" name="addEnv" type="checkbox" checked="checked"/>
+
+                        <label for="envName">Environment Name</label>
+                        <input id="envName"name="envName" type="text" value="Env"/>
+
+                        <label for="packageName">Package Name</label>
+                        <input id="packageName" name="packageName" type="text" value="org.example.company"/>
+
+                        <label for="fileName">File name</label>
+                        <input id="fileName" name="fileName" type="text" value="Collection"/>
+
                         <input type="file" id="file" name="file" class="hidden" accept=".json">
                         <button type="submit" class="bg-purple-800 hover:bg-purple-500 text-white font-bold py-2 px-4 rounded">Upload
                         </button>
