@@ -2,11 +2,9 @@
 
 ## MUST HAVE
 ## NICE TO HAVE
-rethink generator / postman generator structure so config options can flow from the frontend easier
 openapi to rq{}
 add gradle examples project
-web package name, filename, env variable name and other options
-web spinner on output pane
+themes for printer, separate colorprinter and consoleprinter
 html encoding of uri and query params (http client responsibility?)
 rework CLI to make it interactive and usable (like https://github.com/trietsch/spotify-cli)
 add summary? (only if stopOnAssertionError == false?)
@@ -21,8 +19,14 @@ proxy support
 optionally follow redirects
 async client with coroutines
 if request.body.options.language.json and not content-type, default to application/json? probably unnecessary
+favicon
 
 ## DONE
+✅web spinner on output pane (it's usually so fast it doesn't make sense)
+✅web package name, filename, env variable name and other options
+✅fix log request and body responses (trims spaces inside json values) and change colours
+✅rethink generator / postman generator structure so config options can flow from the frontend easier
+✅removed generated sources files that are attached to the jar (like Env!) -> moved to generated-test-sources
 ✅non String response bodies (using types for rq/rs bodies), (not filetype): 
      changed request to return ResponseDsl that is parseable if kotlinx deserialisation is in the classpath, for convenience.  
      Other parsers like Gson or ObjectMapper can be implemented with extension functions ('mapped()'?) similar to the parsed() method.

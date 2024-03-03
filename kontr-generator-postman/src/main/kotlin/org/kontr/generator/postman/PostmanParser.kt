@@ -13,9 +13,6 @@ import java.io.InputStreamReader
 class PostmanParser : IParser {
     private val json = Json { ignoreUnknownKeys = true }
 
-    fun parseGeneratorCollection(inputPath: String): GeneratorCollection =
-        parseGeneratorCollection(File(inputPath).inputStream())
-
     override fun parseGeneratorCollection(collection: InputStream): GeneratorCollection {
         val postmanCollection = parsePostmanCollection(collection)
         val generatorCollection = mapCollection(postmanCollection)
@@ -23,7 +20,6 @@ class PostmanParser : IParser {
     }
 
     private fun parsePostmanCollection(collection: InputStream): PostmanCollection {
-        val json = Json { ignoreUnknownKeys = true }
         val postmanCollection = json.decodeFromString<PostmanCollection>(InputStreamReader(collection).readText())
         return PostmanCollection(postmanCollection.info, postmanCollection.item)
     }

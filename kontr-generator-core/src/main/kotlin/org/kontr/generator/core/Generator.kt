@@ -3,29 +3,47 @@ package org.kontr.generator.core
 import com.squareup.kotlinpoet.*
 import org.kontr.dsl.CollectionDsl
 import org.kontr.dsl.Configuration.defaultOnResponseAssertion
-import org.kontr.dsl.RequestDsl
 import org.kontr.dsl.ResponseDsl
 
+data class GenerationOptions(
+    val nestedObjects: Boolean = false,
+    val addRunCollection: Boolean = true,
+    val envName: String = "Env",
+    val addEnv: Boolean = true,
+    val packageName: String = "org.example.company",
+    val fileName: String = "Collection",
+) {
+    constructor(formData: Map<String, String>) : this(
+        nestedObjects = formData["nestedObjects"] == "on",
+        addRunCollection = formData["addRunCollection"] == "on",
+        envName = formData["envName"] ?: "Env",
+        addEnv = formData["addEnv"] == "on",
+        packageName = formData["packageName"] ?: "org.example.company",
+        fileName = formData["fileName"] ?: "Collection",
+    )
+}
+
 /**
+ * This class is stateful, so instantiate it everytime to avoid cross-generation issues
  * @author Domingo Gomez
  */
-class Generator (val nestedObjects: Boolean = false, val addRunCollection: Boolean = true){
+class Generator(private val options: GenerationOptions = GenerationOptions()) {
     private val variableSet = mutableSetOf<String>()
     private var runCollectionIndex = 0
     fun generate(
         collection: GeneratorCollection,
-        packageName: String,
-        fileName: String,
     ): FileSpec {
-        val fileSpecBuilder = FileSpec.builder(packageName, fileName)
+        val fileSpecBuilder = FileSpec.builder(options.packageName, options.fileName)
         val collectionFunctionBuilder = TypeSpec.objectBuilder(collection.name)
 
         generateNestedItems(collection.items, collectionFunctionBuilder)
-        fileSpecBuilder.addType(generateEnvClass())
         //imports added after generateNestedItems() populates variableSet
         fileSpecBuilder.addImport("org.kontr.dsl", "collection")
-        variableSet.forEach { variable ->
-            fileSpecBuilder.addImport("${packageName}.Env", variable)
+        if (options.addEnv) {
+            fileSpecBuilder.addType(generateEnvClass())
+            variableSet.forEach { variable ->
+                fileSpecBuilder.addImport("${options.packageName}.${options.envName}", variable)
+            }
         }
 
         fileSpecBuilder.addType(collectionFunctionBuilder.build())
@@ -37,11 +55,11 @@ class Generator (val nestedObjects: Boolean = false, val addRunCollection: Boole
 
         items.forEach { item ->
             if (item.items != null) {
-                if(nestedObjects){
+                if (options.nestedObjects) {
                     val nestedObjectBuilder = TypeSpec.objectBuilder(item.name.toClassName())
                     generateNestedItems(item.items, nestedObjectBuilder)
                     parentBuilder.addType(nestedObjectBuilder.build())
-                }else{
+                } else {
                     generateNestedItems(item.items, parentBuilder)
                 }
             }
@@ -50,7 +68,7 @@ class Generator (val nestedObjects: Boolean = false, val addRunCollection: Boole
                 functionNames.addLast(item.name)
             }
         }
-        if(addRunCollection){
+        if (options.addRunCollection) {
             addRunCollectionMethod(functionNames, parentBuilder)
         }
     }
@@ -66,7 +84,9 @@ class Generator (val nestedObjects: Boolean = false, val addRunCollection: Boole
             }
             block.unindent().add("}").build()
 
-            parentBuilder.addFunction(FunSpec.builder("runCollection${runCollectionIndex++}").addCode(block.build()).build())
+            parentBuilder.addFunction(
+                FunSpec.builder("runCollection${runCollectionIndex++}").addCode(block.build()).build()
+            )
         }
     }
 
@@ -101,7 +121,7 @@ class Generator (val nestedObjects: Boolean = false, val addRunCollection: Boole
         request.body?.let {
             requestFunction.addStatement("body = %P", replaceEnvVariables(it))
         }
-        requestFunction.addStatement("${generateOnResponse()}")
+        requestFunction.addStatement(generateOnResponse())
         requestFunction.addCode(CodeBlock.of("⇤⇤}"))
 
         return requestFunction.build()
@@ -132,7 +152,7 @@ class Generator (val nestedObjects: Boolean = false, val addRunCollection: Boole
                 .initializer("%S", "")
                 .build()
         }
-        val envClass = TypeSpec.objectBuilder("Env")
+        val envClass = TypeSpec.objectBuilder(options.envName)
             .addModifiers(KModifier.DATA)
             .addProperties(properties)
             .build()

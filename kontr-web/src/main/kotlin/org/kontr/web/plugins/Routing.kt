@@ -7,8 +7,12 @@ import io.ktor.server.http.content.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import org.kontr.generator.postman.PostmanGenerator
+import io.ktor.util.*
+import org.kontr.generator.core.GenerationOptions
+import org.kontr.generator.core.GeneratorFacade
+import org.kontr.generator.postman.PostmanParser
 
+val generatorFacade = GeneratorFacade(parser = PostmanParser())
 fun Application.configureRouting() {
     routing {
         staticResources("/", "static", index = "index.html") {
@@ -17,13 +21,13 @@ fun Application.configureRouting() {
 
         route("/upload") {
             post("") {
+                val form = call.receiveParameters().toMap()
                 call.receiveMultipart().forEachPart { part ->
                     when (part) {
                         is PartData.FileItem -> {
-                            val generatedCollection = PostmanGenerator().generateFromStreamToStream(
+                            val generatedCollection = generatorFacade.generateFromStreamToStream(
                                 part.streamProvider().buffered(),
-                                "org.example.company",
-                                "Collection"
+                                GenerationOptions(form.mapValues { it.value.joinToString(",") })
                             )
                             val stringBuilder = StringBuilder()
                             generatedCollection.writeTo(stringBuilder)
