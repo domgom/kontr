@@ -1,5 +1,6 @@
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
+import org.kontr.generator.core.GenerationOptions
 import org.kontr.generator.core.GeneratorFacade
 import org.kontr.generator.postman.PostmanParser
 import java.io.File
@@ -23,7 +24,7 @@ class CollectionGenerationTest {
             File(outputPathRootName).deleteRecursively()
         }
 
-        generatorFacade.generateFromFileToFile(collectionPathName, outputPathRootName, packageName, fileName)
+        generatorFacade.generateFromFileToFile(collectionPathName, outputPathRootName, GenerationOptions(fileName = fileName, packageName = packageName))
         assertThat(outputFile.exists()).isTrue()
         outputFile.inputStream().use { it.copyTo(System.out) }
         // TODO improve to have good assertions but for now this is better than nothing to know if output changes

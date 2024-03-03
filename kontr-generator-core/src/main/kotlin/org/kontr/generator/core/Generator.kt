@@ -10,8 +10,8 @@ data class GenerationOptions(
     val addRunCollection: Boolean = true,
     val envName: String = "Env",
     val addEnv: Boolean = true,
-    var packageName: String = "org.example.company",
-    var fileName: String = "Collection",
+    val packageName: String = "org.example.company",
+    val fileName: String = "Collection",
 )
 
 /**
@@ -23,10 +23,8 @@ class Generator(private val options: GenerationOptions = GenerationOptions()) {
     private var runCollectionIndex = 0
     fun generate(
         collection: GeneratorCollection,
-        packageName: String,
-        fileName: String,
     ): FileSpec {
-        val fileSpecBuilder = FileSpec.builder(packageName, fileName)
+        val fileSpecBuilder = FileSpec.builder(options.packageName, options.fileName)
         val collectionFunctionBuilder = TypeSpec.objectBuilder(collection.name)
 
         generateNestedItems(collection.items, collectionFunctionBuilder)
@@ -34,7 +32,7 @@ class Generator(private val options: GenerationOptions = GenerationOptions()) {
         //imports added after generateNestedItems() populates variableSet
         fileSpecBuilder.addImport("org.kontr.dsl", "collection")
         variableSet.forEach { variable ->
-            fileSpecBuilder.addImport("${packageName}.Env", variable)
+            fileSpecBuilder.addImport("${options.packageName}.Env", variable)
         }
 
         fileSpecBuilder.addType(collectionFunctionBuilder.build())
