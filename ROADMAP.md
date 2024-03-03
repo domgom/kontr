@@ -21,6 +21,7 @@ proxy support
 optionally follow redirects
 async client with coroutines
 if request.body.options.language.json and not content-type, default to application/json? probably unnecessary
+favicon
 
 ## DONE
 ✅fix log request and body responses (trims spaces inside json values) and change colours
