@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Web app" type="JetRunConfigurationType">
+    <option name="MAIN_CLASS_NAME" value="org.kontr.web.MainKt" />
+    <module name="kontr-web" />
+    <option name="PROGRAM_PARAMETERS" value="-config=application-local.conf" />
+    <shortenClasspath name="NONE" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

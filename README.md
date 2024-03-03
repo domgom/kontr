@@ -81,7 +81,7 @@ private fun CollectionDsl.verifyLicense(licenseName : String) {
         }
         onResponse {
             healthy
-            assertThat(body.lines().first()).contains()
+            assertThat(body.lines().first()).contains(licenseName)
         }
     }
 }
