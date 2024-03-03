@@ -149,7 +149,7 @@ public object Auth {
 If the amount of redundant `public` modifiers bothers you, you can use IntelliJ's `Code/Code cleanup..` to remove them.
 
 ## IDE support
-We recommend Intellij as the IDE for Kontr (and really any Kotlin project). We get nice colouring for the DSL syntax:
+We recommend IntelliJ as the IDE for Kontr (and really any Kotlin project). We get nice colouring for the DSL syntax:
 
 ![Screenshot of IntelliJ editor showing Kontr's DSL colouring](.img/weather-api-syntax-hightlight.png)
 

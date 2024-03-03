@@ -5,7 +5,7 @@ Kontr ([pronounced as Contour](https://dictionary.cambridge.org/pronunciation/en
 Disclaimer: you shouldn't use Kontr for performance testing, use https://github.com/gatling instead.
 
 ## Important warning
-Current version is 1.0.0 and although is fairly usable please consider it **EXPERIMENTAL** with DSL interfaces subjected to changes.
+Current version is 1.1.0 and although is fairly usable please consider it **EXPERIMENTAL** with DSL interfaces subjected to changes.
 
 ## Dependencies
 #### Maven
@@ -13,12 +13,12 @@ Current version is 1.0.0 and although is fairly usable please consider it **EXPE
 <dependency>
   <groupId>org.kontr</groupId>
   <artifactId>kontr-dsl</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 #### Gradle
 ```kts
-implementation("org.kontr:kontr-dsl:1.0.0")
+implementation("org.kontr:kontr-dsl:1.1.0")
 ```
 #### Central
 https://repo1.maven.org/maven2/org/kontr/kontr-dsl/
@@ -91,7 +91,7 @@ private fun CollectionDsl.verifyLicense(licenseName : String) {
 We can also generate those functions from postman collections, so we can focus on building testing workflows instead of crafting the requests individually.
 ```cmd
 // on project root
-mvn jar:jar && java -jar kontr-cli/target/kontr-cli-1.0.0-jar-with-dependencies.jar gp "kontr-generator-postman/src/test/resources/weather.api.postman_collection.json" "kontr-cli/target/generated-sources/postman" "org.example.generated" "Collection"
+mvn jar:jar && java -jar kontr-cli/target/kontr-cli-1.1.0-jar-with-dependencies.jar gp "kontr-generator-postman/src/test/resources/weather.api.postman_collection.json" "kontr-cli/target/generated-sources/postman" "org.example.generated" "Collection"
 ```
 
 We have now https://kontr.onrender.com/ where you can generate online your Kontr DSL files uploading the Postman collections! :rocket:
@@ -149,7 +149,7 @@ public object Auth {
 If the amount of redundant `public` modifiers bothers you, you can use IntelliJ's `Code/Code cleanup..` to remove them.
 
 ## IDE support
-We recommend Intellij as the IDE for Kontr (and really any Kotlin project). We get nice colouring for the DSL syntax:
+We recommend IntelliJ as the IDE for Kontr (and really any Kotlin project). We get nice colouring for the DSL syntax:
 
 ![Screenshot of IntelliJ editor showing Kontr's DSL colouring](.img/weather-api-syntax-hightlight.png)
 
