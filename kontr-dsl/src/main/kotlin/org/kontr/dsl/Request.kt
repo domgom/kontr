@@ -59,29 +59,26 @@ open class Request {
         if (separatedValues.isNotEmpty()) {
             queryParams[key] = separatedValues
         }
-
     }
 
     @DslColour1
-    fun queryParam(key: String, value: String) {
-        queryParams[key] = value
+    fun <T : Any> queryParam(key: String, value: T) {
+        queryParams[key] = value.toString()
     }
 
     @DslColour1
-    fun queryParams(vararg pairs: Pair<String, String>): Unit {
-        pairs.forEach { (key, value) -> queryParams[key] = value }
+    fun <T : Any> queryParams(vararg pairs: Pair<String, T>) {
+        pairs.forEach { (key, value) -> queryParams[key] = value.toString() }
     }
 
     @DslColour1
-    fun queryParams(vararg entries: String): Map<String, String> {
+    fun queryParams(vararg entries: String) {
         require(entries.size % 2 == 0) { "Number of arguments must be even" }
-        val map = mutableMapOf<String, String>()
         for (i in entries.indices step 2) {
             val key = entries[i]
             val value = entries[i + 1]
-            map[key] = value
+            queryParams[key] = value
         }
-        return map
     }
 
     @DslColour1
