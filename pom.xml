@@ -20,6 +20,7 @@
         <serialization.version>1.6.3</serialization.version>
         <kotlin.code.style>official</kotlin.code.style>
         <kotlin.compiler.jvmTarget>21</kotlin.compiler.jvmTarget>
+        <kotlin.compiler.language.level>1.9</kotlin.compiler.language.level>
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
     </properties>
@@ -107,10 +108,11 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <languageVersion>${kotlin.compiler.language.level}</languageVersion>
+                    <jvmTarget>${kotlin.compiler.jvmTarget}</jvmTarget>
                     <compilerPlugins>
                         <plugin>kotlinx-serialization</plugin>
                     </compilerPlugins>
-                    <jvmTarget>${kotlin.compiler.jvmTarget}</jvmTarget>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -119,6 +121,15 @@
                         <version>${kotlin.version}</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.12.1</version>
+                <configuration>
+                    <source>${kotlin.compiler.jvmTarget}</source>
+                    <target>${kotlin.compiler.jvmTarget}</target>
+                </configuration>
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>

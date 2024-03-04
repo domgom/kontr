@@ -111,6 +111,8 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <languageVersion>${kotlin.compiler.language.level}</languageVersion>
+                    <jvmTarget>${kotlin.compiler.jvmTarget}</jvmTarget>
                     <compilerPlugins>
                         <plugin>kotlinx-serialization</plugin>
                     </compilerPlugins>
