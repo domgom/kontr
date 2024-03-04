@@ -3,7 +3,6 @@ package org.kontr.http.client.java
 import org.kontr.dsl.RequestDsl
 import org.kontr.dsl.ResponseDsl
 import org.kontr.dsl.SyncHttpClient
-import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpRequest.BodyPublishers
@@ -20,7 +19,7 @@ class SyncJavaHttpClient : SyncHttpClient {
 
     private fun RequestDsl.map(): HttpRequest {
         val builder = HttpRequest.newBuilder()
-            .uri(URI.create(url))
+            .uri(UriBuilder(url).queryParams(queryParams).build())
             .method(method.name, body?.let { BodyPublishers.ofString(it) } ?: BodyPublishers.noBody())
 
         headers.entries.forEach { entry ->
@@ -28,6 +27,7 @@ class SyncJavaHttpClient : SyncHttpClient {
                 builder.header(entry.key, it)
             }
         }
+
         return builder.build()
     }
 

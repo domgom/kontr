@@ -17,19 +17,22 @@ data object EnvVars {
 
 fun main() {
     val cityId = 1_542
-    val cityName = "San%20Francisco"
+    val cityName = "San Francisco"
     val date = "2024-07-01T00:00:00Z"
 
     collection {
-        get("$BASE_URL/current?city=$cityName") {
+        get("$BASE_URL/current") {
+            queryParam("city", cityName)
             onResponse { ok }
             onResponse {
                 assertJpath("method", "GET")
                 assertJpath("path", "/weather-api/current?city=San%20Francisco")
             }
         }
-
-        val forecast = get("$BASE_URL/forecast?daysAhead=5") { onResponse { healthy } }.body
+        val forecast = get("$BASE_URL/forecast") {
+            queryParam("daysAhead", "5")
+            onResponse { healthy }
+        }.body
         println("Forecast Length: ${forecast.length}")
 
         put("$BASE_URL/weather/$cityId/$date") {
@@ -40,8 +43,6 @@ fun main() {
             onResponse { in2XX }
             body = """{'temperature': 25, 'conditions': 'Partly Cloudy'}"""
         }
-
-
     }
 }
 
