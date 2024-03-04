@@ -35,6 +35,33 @@ open class Request {
         headers[key] = values.toList()
     }
 
+    /**
+     * Sends the query param allowing a nullable value. By default (sendEmptyValue=false) null values are omitted.
+     * If sendEmptyValue=true, the url will contain "baseUri?param1=&param2=value2"
+     *
+     * @param key the query param key (or name)
+     * @param value the nullable query param value
+     * @param sendEmptyValue the flag to force sending null the query param name with empty String value ("") or not.
+     * @return Unit
+     */
+    @DslColour1
+    fun queryParam(key: String, value: String?, sendEmptyValue: Boolean = false) {
+        if (sendEmptyValue) {
+            queryParams[key] = value ?: ""
+        } else if (!value.isNullOrEmpty()) {
+            queryParams[key] = value
+        }
+    }
+
+    @DslColour1
+    fun <T : Any> queryParam(key: String, multiValue: Iterable<T>, separator: String = ",") {
+        val separatedValues = multiValue.joinToString(separator)
+        if (separatedValues.isNotEmpty()) {
+            queryParams[key] = separatedValues
+        }
+
+    }
+
     @DslColour1
     fun queryParam(key: String, value: String) {
         queryParams[key] = value
@@ -48,7 +75,6 @@ open class Request {
     @DslColour1
     fun queryParams(vararg entries: String): Map<String, String> {
         require(entries.size % 2 == 0) { "Number of arguments must be even" }
-
         val map = mutableMapOf<String, String>()
         for (i in entries.indices step 2) {
             val key = entries[i]
@@ -57,6 +83,7 @@ open class Request {
         }
         return map
     }
+
     @DslColour1
     fun headers(block: HttpHeadersBuilder.() -> HttpHeader) {
         val builder = HttpHeadersBuilder()
