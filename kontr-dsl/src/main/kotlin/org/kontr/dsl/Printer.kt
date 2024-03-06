@@ -54,8 +54,10 @@ fun Request.printRequest(requestAlias: String?, classLine: String?) =
                 requestAlias,
                 classLine
             )
-        }${rightArrow()} ${alias ?: "$method $url"} ${requestBody()}"
+        }${rightArrow()} ${alias ?: "$method $url ${queryParamsStr()}"} ${requestBody()}"
     )
+
+fun Request.queryParamsStr() = if (queryParams.isNotEmpty()) BLUE + queryParams + END else ""
 
 fun Response.printResponse(assertResult: Boolean) =
     flush("${prefRS()}${leftArrow()} ${statusCode()} ${assertResult(assertResult)} ${responseBody()}")

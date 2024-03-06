@@ -36,8 +36,8 @@ open class Request {
     }
 
     /**
-     * Sends the query param allowing a nullable value. By default (sendEmptyValue=false) null values are omitted.
-     * If sendEmptyValue=true, the url will contain "baseUri?param1=&param2=value2"
+     * Sends the query param allowing a nullable value. By default (sendEmptyValue=false), null values are omitted.
+     * If sendEmptyValue=true for param1, the url will contain "baseUri?param1=&..."
      *
      * @param key the query param key (or name)
      * @param value the nullable query param value
@@ -66,18 +66,22 @@ open class Request {
         queryParams[key] = value.toString()
     }
 
-    @DslColour1
-    fun <T : Any> queryParams(vararg pairs: Pair<String, T>) {
-        pairs.forEach { (key, value) -> queryParams[key] = value.toString() }
-    }
+    /**
+     * Sends the query param allowing Any value, a nullable value or Iterable<Any>.
+     * Both null and empty iterables are ignored.
+     *
+     * @param pairs the list of query params
+     * @return Unit
+     */
 
     @DslColour1
-    fun queryParams(vararg entries: String) {
-        require(entries.size % 2 == 0) { "Number of arguments must be even" }
-        for (i in entries.indices step 2) {
-            val key = entries[i]
-            val value = entries[i + 1]
-            queryParams[key] = value
+    fun <T> queryParams(vararg pairs: Pair<String, T>) {
+        pairs.forEach { (key, value) ->
+            when (value) {
+                is Iterable<*> -> queryParam(key, value.filterNotNull() as Iterable<Any>)
+                is Any -> queryParam(key, value)
+                null -> {}
+            }
         }
     }
 
