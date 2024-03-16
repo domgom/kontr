@@ -2,6 +2,7 @@ package org.kontr.generator.openapi
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonElement
 
 /**
  * @author Domingo Gomez
@@ -71,6 +72,7 @@ data class ParameterSchema(
     val type: String? = null,
     val format: String? = null,
     val ref: String? = null,
+    val default : JsonElement? = null,
 )
 
 @Serializable

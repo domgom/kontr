@@ -1,6 +1,9 @@
 package org.kontr.generator.openapi
 
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import org.kontr.dsl.HttpMethod
 import org.kontr.generator.core.GeneratorCollection
 import org.kontr.generator.core.IParser
@@ -45,17 +48,35 @@ class OpenApiParser : IParser {
         val url = org.kontr.generator.core.Url(
             raw = path.key,
             host = path.key, // TODO pass server host
-            variables = if (it.value.parameters.isEmpty()) mutableMapOf()
-            else it.value.parameters.filter { p -> p.`in` == In.PATH }.associate { param -> param.name to "" },
             path = path.key.split("/").filter { segment -> segment.isNotEmpty() },
-            query = if (it.value.parameters.isEmpty()) mutableMapOf()
-            else it.value.parameters.filter { p -> p.`in` == In.QUERY }.associate { param -> param.name to "" },
+            variables = paramInToMap(In.PATH, it.value.parameters),
+            query = paramInToMap(In.QUERY, it.value.parameters),
         )
         return@map Item(
             name = it.value.operationId ?: path.key.toClassName(),
-            request = Request(method = mapHttpMethod(it.key), url = url, header = emptyMap(), body = ""),
-            items = emptyList()
+            items = emptyList(),
+            request = Request(
+                method = mapHttpMethod(it.key), url = url, body = "",
+                header = paramInToMap(In.HEADER, it.value.parameters),
+            ),
         )
+    }
+
+    private fun paramInToMap(location: In, parameters: List<Parameter>): Map<String, String> =
+        if (parameters.isEmpty()) mutableMapOf()
+        else parameters.filter { p -> p.`in` == location }.associate { param -> param.name to toDefaultValue(param) }
+
+    private fun toDefaultValue(param: Parameter): String {
+        return if (param.schema.default != null) {
+            when (param.schema.type) {
+                "array" -> param.schema.default.jsonArray.joinToString(",")
+                "string", "number", "integer", "boolean" -> param.schema.default.jsonPrimitive.content
+                "object" -> param.schema.default.jsonObject.toString()
+                else -> param.schema.default.toString()
+            }
+        } else {
+            ""
+        }
     }
 
     private fun mapHttpMethod(key: String): HttpMethod = HttpMethod.valueOf(key.uppercase())
